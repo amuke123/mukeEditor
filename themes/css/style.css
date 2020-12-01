@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{padding:0px;margin:0px;}
+img{border:none;}
+a{color:#555;text-decoration:none;}
+a:hover{color:#33CC99;}
+.clear{clear:both;}
+.left{float:left;}
