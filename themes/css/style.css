@@ -7,3 +7,33 @@ a{color:#555;text-decoration:none;}
 a:hover{color:#33CC99;}
 .clear{clear:both;}
 .left{float:left;}
+
+.mk-box{width:98%;height:auto;margin:10px 1%;}
+.mk-nav{line-height:28px;padding:5px 5px;border:1px solid #ccc;font-size:16px;color:#fff;background:#f3f5f4;}
+.mk-nav b{color:#777;font-weight:normal;font-size:19px;padding:0px 5px;text-shadow:0px 0px 3px #fff;}
+.mk-nav span{display:inline-block;margin:0px 3px;width:28px;position:relative;text-align:center;border-radius:3px;background:#0961a4;box-shadow:0px 0px 3px #444;}
+.mk-nav span:hover{background:#035184;}
+.mk-nav span i{font-style:normal;}
+.mk-bold{font-weight:bold;}
+.mk-italic{font-style:italic;}
+.mk-delline{text-decoration:line-through;}
+.mk-underline{text-decoration:underline;}
+.mk-fontSize{font-size:14px;}
+.mk-fontFamily{font-family:'黑体';}
+.mk-paragraph{font-weight:bold;font-size:15px;}
+.mk-color{color:#9cf;}
+.mk-backColor{font-size:14px;color:#666;}
+.mk-textBlock{color:#999;font-weight:bold;}
+.mk-code{font-family:'黑体';font-weight:bold;}
+.mk-removeHtml{text-decoration:line-through;font-size:14px;}
+
+
+
+
+
+
+
+
+
+
+.mk-editor{width:calc(100% - 2px);height:280px;border:1px solid #ccc;}
