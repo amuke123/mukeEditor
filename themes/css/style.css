@@ -8,30 +8,12 @@ a:hover{color:#33CC99;}
 .clear{clear:both;}
 .left{float:left;}
 
-.mk-box{width:98%;height:auto;margin:10px 1%;}
-.mk-nav{line-height:28px;padding:5px 5px;border:1px solid #ccc;font-size:16px;color:#fff;background:#f3f5f4;}
+.mk-box{max-width:98%;height:auto;margin:10px 1%;}
+.mk-nav{line-height:28px;padding:2px 5px;border:1px solid #ccc;font-size:16px;color:#fff;background:#f3f5f4;}
 .mk-nav b{color:#777;font-weight:normal;font-size:19px;padding:0px 5px;text-shadow:0px 0px 3px #fff;}
-.mk-nav span{display:inline-block;margin:0px 3px;width:28px;position:relative;text-align:center;border-radius:3px;background:#0961a4;box-shadow:0px 0px 3px #444;font-weight:bold;}
-.mk-nav span:hover{background:#035184;}
+.mk-nav span{display:inline-block;margin:3px;width:auto;min-width:28px;text-align:center;border-radius:3px;background:#333;box-shadow:inset -1px -1px 1px #000;font-weight:bold;}
+.mk-nav span:hover{background:#2981e4;}
 .mk-nav span i{font-style:normal;}
-.mk-nav span.mk-italic i{font-style:italic;}
-.mk-delline{text-decoration:line-through;}
-.mk-underline{text-decoration:underline;}
-.mk-fontSize{font-size:14px;}
-.mk-paragraph{font-size:15px;}
-.mk-color{color:#9cf;}
-.mk-backColor{font-size:14px;color:#666;}
-.mk-textBlock{color:#999;}
-.mk-code{font-family:'黑体';}
-.mk-removeHtml{text-decoration:line-through;font-size:14px;}
 
 
-
-
-
-
-
-
-
-
-.mk-editor{width:calc(100% - 2px);height:280px;border:1px solid #ccc;}
+.mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;}

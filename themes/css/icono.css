@@ -1,12 +1,12 @@
 .icono-bold:before{content:'B';position:relative;top:0px;}
-.icono-italic:before{content:'I';position:relative;top:0px;left:-2px;}
-.icono-delline:before{content:'S';position:relative;top:0px;}
-.icono-underline:before{content:'U';position:relative;top:0px;}
-.icono-fontSize:before{content:'Aa';position:relative;top:0px;}
+.icono-italic:before{content:'I';position:relative;top:0px;left:-2px;font-style:italic;}
+.icono-delline:before{content:'S';position:relative;top:0px;text-decoration:line-through;}
+.icono-underline:before{content:'U';position:relative;top:0px;text-decoration:underline;}
+.icono-fontSize:before{content:'Aa';position:relative;top:0px;font-size:14px;}
 .icono-fontFamily:before{content:'ℱ';position:relative;top:0px;}
-.icono-paragraph:before{content:'H';position:relative;top:0px;}
-.icono-color:before{content:'A';position:relative;top:0px;}
-.icono-backColor:before{content:'A';position:relative;top:0px;display:inline-block;background:#fc0;padding:0px 3px;line-height:16px;border-radius:3px;}
+.icono-paragraph:before{content:'H';position:relative;top:0px;font-size:15px;}
+.icono-color:before{content:'A';position:relative;top:0px;color:#9cf;}
+.icono-backColor:before{content:'A';position:relative;top:0px;display:inline-block;background:#fc0;padding:0px 3px;line-height:16px;border-radius:3px;font-size:14px;color:#333;}
 
 .icono-left{display:inline-block;position:relative;top:1px;left:0px;width:15px;height:6px;border-top:2px solid currentColor;border-bottom:2px solid currentColor;}
 .icono-left:before{content:'';position:absolute;top:-6px;left:0px;width:9px;height:6px;border-top:2px solid currentColor;border-bottom:2px solid currentColor;}
@@ -29,23 +29,39 @@
 .icono-unlink:before{content:'';position:absolute;top:-11px;left:3px;width:4px;height:5px;border-radius:8px;border:2px solid currentColor;border-bottom:2px solid transparent;}
 .icono-unlink:after{content:'';position:absolute;top:0px;left:3px;width:4px;height:5px;border-radius:8px;border:2px solid currentColor;border-top:2px solid transparent;}
 
-.icono-textBlock:before{content:'TXT';position:relative;top:0px;left:-4px;display:inline-block;background:#fff;padding:0px 3px;line-height:16px;border-radius:3px;transform:scale(.5,1);}
-.icono-code:before{content:'<>';position:relative;top:0px;}
-.icono-selectAll:before{content:'↖';position:relative;top:0px;}
-.icono-removeStyle:before{content:'≠';position:relative;top:0px;}
-.icono-removeHtml:before{content:'Div';position:relative;top:0px;}
+.icono-textBlock{display:inline-block;position:relative;top:2px;left:0px;width:18px;height:15px;background:currentColor;border-radius:2px;}
+.icono-textBlock:before{content:'TXT';position:absolute;top:0px;left:-3px;line-height:14px;font-size:12px;transform:scale(.6,1);color:#666;}
 
-.icono-image:before{content:'▣';position:relative;top:0px;}
-.icono-audio:before{content:'♪';position:relative;top:0px;}
+.icono-code{display:inline-block;position:relative;top:2px;left:0px;width:10px;height:13px;border:2px solid currentColor;border-radius:2px 6px 2px 2px;}
+.icono-code:before{content:'c';position:absolute;top:0px;left:2px;font-size:12px;line-height:12px;}
+
+.icono-selectAll{display:inline-block;position:relative;top:-3px;left:-2px;width:0px;height:0px;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:10px solid currentColor;transform:rotate(-45deg);}
+.icono-selectAll:before{content:'';position:absolute;top:9px;left:-2px;width:4px;height:6px;background:currentColor;}
+
+.icono-removeStyle{display:inline-block;position:relative;top:1px;left:0px;width:13px;height:0px;border-bottom:2px solid currentColor;}
+.icono-removeStyle:before{content:'';position:absolute;top:-9px;left:1px;width:12px;height:8px;background:currentColor;border-radius:5px 5px 5px 10px;transform:rotate(-45deg);}
+
+.icono-removeHtml:before{content:'Div';position:relative;top:0px;text-decoration:line-through;font-size:12px;}
+
+.icono-image{display:inline-block;position:relative;top:1px;left:0px;width:14px;height:10px;border:2px solid currentColor;border-radius:3px;overflow:hidden;}
+.icono-image:before{content:'';position:absolute;top:7px;left:6px;width:10px;height:10px;box-shadow:inset 0px 0px 0px 10px,-6px -4px;transform:rotate(-45deg);}
+.icono-image:after{content:'';position:absolute;top:2px;left:3px;width:2px;height:2px;background:currentColor;}
+
+.icono-audio:before{content:'♪';position:relative;top:0px;font-size:18px;line-height:18px;}
 .icono-video:before{content:'▶';position:relative;top:0px;}
-.icono-subscript:before{content:'X²';position:relative;top:0px;}
-.icono-superscript:before{content:'X₂';position:relative;top:0px;}
-.icono-hr:before{content:'—';position:relative;top:0px;}
-.icono-orderedList:before{content:'≡';position:relative;top:0px;}
-.icono-unorderedList:before{content:'≡';position:relative;top:0px;}
+.icono-subscript:before{content:'X₂';position:relative;top:0px;}
+.icono-superscript:before{content:'X²';position:relative;top:0px;}
+.icono-hr{display:inline-block;position:relative;top:-5px;left:0px;width:12px;height:2px;background:currentColor;}
+
+.icono-orderedList{display:inline-block;position:relative;top:-5px;left:3px;width:9px;height:2px;background:currentColor;box-shadow:inset 0px 0px 0px 10px,0px -5px,0px 5px;}
+.icono-orderedList:before{content:'123';position:absolute;top:-17px;left:-10px;line-height:12px;width:12px;font-size:12px;transform:scale(.4,.4);word-wrap:break-word;word-break:break-all;}
+
+.icono-unorderedList{display:inline-block;position:relative;top:-5px;left:-5px;width:2px;height:2px;background:currentColor;box-shadow:inset 0px 0px 0px 10px,0px -5px,0px 5px;}
+.icono-unorderedList:before{content:'';position:absolute;top:0px;left:4px;width:9px;height:2px;background:currentColor;box-shadow:inset 0px 0px 0px 10px,0px -5px,0px 5px;}
+
 .icono-undo:before{content:'↶';position:relative;top:0px;}
 .icono-redo:before{content:'↷';position:relative;top:0px;}
-.icono-html:before{content:'▤';position:relative;top:0px;}
+.icono-html:before{content:'<>';position:relative;top:0px;font-family:'黑体';}
 .icono-about:before{content:'?';position:relative;top:0px;}
 
 
@@ -55,7 +71,3 @@
 
 
 
-
-
-
-.icono-heart:after{content:'';position:absolute;top:-5px;left:0px;width:8px;height:8px;border-radius:50%;background:transparent;color:currentColor;}
