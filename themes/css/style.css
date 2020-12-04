@@ -17,3 +17,4 @@ a:hover{color:#33CC99;}
 
 
 .mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;}
+.mk-editor p{padding:4px 0px;}
