@@ -7,9 +7,10 @@
 			language:"zh-CN",
 			style:"style",
 			autoHeight:true,
-			navs:['html','|','bold','italic','strike','underline','fontSize','fontFamily','paragraph','color','backColor','|',
-			'left','center','right','full','indent','outdent','|','link','unlink','textBlock','code','selectAll','removeStyle','removeHtml','|',
-			'image','audio','video','subscript','superscript','hr','orderedList','unorderedList','|','undo','redo','|','about'],
+			navs:['html','|','bold','italic','underline','strike','fontSize','fontFamily','paragraph','color','backColor','|',
+			'orderedList','unorderedList','left','center','right','full','indent','outdent','subscript','superscript','|',
+			'link','unlink','textBlock','code','hr','selectAll','removeStyle','removeHtml','|',
+			'image','audio','video','file','|','undo','redo','|','about'],
 		},
 		options:{
 			version:"1.0.0",/**版本**/
@@ -22,7 +23,7 @@
 			elemBox:'',/**html盒子**/
 			navBox:'',/**nav盒子**/
 			textBox:'',/**文本框盒子**/
-			font:{songti:"SimSun",kaiti:"KaiTi",heiti:"SimHei",yahei:"Microsoft YaHei",andalemono:"andale mono",arial:"arial",arialblack:"arial black",comicsansms:"comic sans ms",impact:"impact",timesnewroman:"times new roman"},
+			font:{songti:"SimSun",kaiti:"KaiTi",heiti:"SimHei",yahei:"Microsoft YaHei",andaleMono:"andale mono",arial:"arial",arialBlack:"arial black",comicSansMs:"comic sans ms",impact:"impact",timesNewRoman:"times new roman"},
 			code:{js:"JavaScript",html:"HTML",css:"CSS",php:"PHP",pl:"Perl",py:"Python",rb:"Ruby",java:"Java",vb:"ASP/VB",cpp:"C/C++",cs:"C#",xml:"XML",bsh:"Shell",other:"Other"},/**字体**/
 			color:{
 				base: ["c00000", "ff0000", "ffc000", "ffff00", "92d050", "00b050", "00b0f0", "0070c0", "002060", "7030a0"],
@@ -89,19 +90,22 @@
 			this.options.elemBox=editor;
 			this.options.navBox=nav;
 			this.options.textBox=M;
-			this.options.elemBox.onclick=this.editorClick,
-			this.options.elemBox.onkeydown=function(e){
+			this.options.elemBox.onclick=this.editorClick,this.options.elemBox.onkeydown=function(e){
 				var i=e||window.event;
 				if(13==(i.keyCode||i.which||i.charCode)){
 					MK.setFormat()||i.shiftKey?'':MK.layout("formatBlock","<p>",true);
 				}
+			};
+			this.options.elemBox.onblur=function(e){
+				MK.selarea();
+				if(MK.options.htmlKey){MK.options.elemBox.innerHTML=MK.options.textBox.value;}
 			};
 			elem.appendChild(nav);
 			elem.appendChild(editor);
 			elem.appendChild(M);
 		},
 		layout(action,tag,key=false){
-			1==(key=key||false)?this.options.elemBox.focus():this.resume();
+			key?this.options.elemBox.focus():this.resume();
 			tag=tag||null;
 			document.execCommand(action,false,tag);
 		},
@@ -110,8 +114,24 @@
 			this.selarea(true);
 		},
 		selarea(key=false){
-			window.getSelection?(dom=window.getSelection(),key?(dom.removeAllRanges(),dom.addRange(this.options.select)):this.options.select=dom.getRangeAt(0)):key?(document.body.createTextRange().select(),document.selection.empty(),document.selection.addRange(this.options.select)):this.options.select=document.selection.createRange();
-			key&&(this.options.select=null);
+			if(window.getSelection){
+				dom=window.getSelection();
+				if(key){
+					dom.removeAllRanges();
+					dom.addRange(this.options.select);
+				}else{
+					this.options.select=dom.getRangeAt(0);
+				}
+			}else{
+				if(key){
+					document.body.createTextRange().select();
+					document.selection.empty();
+					document.selection.addRange(this.options.select);
+				}else{
+					this.options.select=document.selection.createRange();
+				}
+				if(key){this.options.select=null;}
+			}
 		},
 		setFormat(){/**格式化**/
 			for(var dom=this.getNode(),domName=this.getNodeName(dom),key=false;domName!="p"&&domName!="div";){
@@ -143,32 +163,284 @@
 				if(this.config.navs[i]=='|'){
 					texts+='<b>|</b>';
 				}else{
-					texts+='<span class="mk-'+this.config.navs[i]+'" title="'+this.options.lang[this.config.navs[i]]+'"><i class="icono-'+this.config.navs[i]+'"></i></span>';
+					texts+='<span class="mk-'+this.config.navs[i]+'" id="mk-'+this.config.navs[i]+'" title="'+this.options.lang[this.config.navs[i]]+'"><i class="icono-'+this.config.navs[i]+'"></i></span>';
 				}
 			}
 			return texts;
 		},
 		processInnderDiv(el){/**点击响应**/
-			myClass=el.getAttribute("class").split('-')[1];
-			this.options.funcs.push('MK.fc_'+myClass+'("'+myClass+'")');
-			var funcsLine = this.options.funcs.length-1;
-			eval(this.options.funcs[funcsLine]);
+			if(el.getAttribute("class")){
+				myClass=el.getAttribute("class").split('-')[1];
+				if(this.config.navs.indexOf(myClass)>-1){
+					this.options.funcs.push('MK.fc_'+myClass+'("'+myClass+'")');
+					var funcsLine=this.options.funcs.length-1;
+					eval(this.options.funcs[funcsLine]);
+				}
+			}
 		},
 		fc_bold(id){/**加粗**/
 			this.layout('bold');
-			//console.log(this.options.lang[id]);
+			this.valid('bold');
+		},
+		fc_italic(id){/**倾斜**/
+			this.layout('italic');
+			this.valid('italic');
+		},
+		fc_strike(id){/**删除线**/
+			this.layout('strikeThrough');
+			this.valid('strike');
+		},
+		fc_underline(id){/**下滑线**/
+			this.layout('underline');
+			this.valid('underline');
+		},
+		fc_center(id){/**居中**/
+			this.layout("justifyCenter")
+		},
+		fc_left(id){/**左对齐**/
+			this.layout("justifyLeft")
+		},
+		fc_right(id){/**右对齐**/
+			this.layout("justifyRight")
+		},
+		fc_full(id){/**两端对齐**/
+			this.layout("justifyFull")
+		},
+		fc_indent(id){/**缩进**/
+			this.layout("indent")
+		},
+		fc_outdent(id){/**取消缩进**/
+			this.layout("outdent")
+		},
+		fc_unlink(id){/**取消链接**/
+			this.layout("unlink")
+		},
+		fc_textBlock(id){/**文本块**/
+			if(this.options.preKey){this.addbr();this.options.preKey=false;}else{this.layout("formatBlock","<pre>");this.options.preKey=true;}
+		},
+		fc_selectAll(id){/**全选**/
+			this.layout("selectall")
+		},
+		fc_removeStyle(id){/**清除格式**/
+			this.abolish();
+			this.layout("removeFormat")
+		},
+		fc_removeHtml(id){/**清除多余的HTML代码**/
+			this.options.elemBox.innerHTML=this.options.elemBox.innerText.replace(/\r\n/g,"<br/>");
+			this.options.elemBox.innerHTML=this.options.elemBox.innerText.replace(/\n/g,"<br/>");
+		},
+		fc_subscript(id){/**下标**/
+			this.layout("subscript");
+			this.valid('subscript');
+		},
+		fc_superscript(id){/**上标**/
+			this.layout("superscript")
+			this.valid('superscript');
+		},
+		fc_hr(id){/**水平线**/
+			this.layout("insertHorizontalRule")
+		},
+		fc_orderedList(id){/**有序列表**/
+			this.layout("insertOrderedList")
+		},
+		fc_unorderedList(id){/**无序列表**/
+			this.layout("insertUnorderedList")
+		},
+		fc_undo(id){/**返回**/
+			this.layout("undo")
+		},
+		fc_redo(id){/**撤销**/
+			this.layout("redo")
+		},
+		fc_cut(id){/**剪切**/
+			this.layout("cut")
+		},
+		fc_copy(id){/**复制**/
+			this.layout("copy")
+		},
+		fc_paste(id){/**粘贴**/
+			this.layout("paste")
+		},
+		fc_delete(id){/**删除**/
+			this.layout("delete")
+		},
+		fc_fontSize(id){/**字体大小**/
+			this.newbox("fontSize")
+		},
+		fc_fontFamily(id){/**字体名称**/
+			this.newbox("fontFamily")
+		},
+		fc_paragraph(id){/**标题段落**/
+			this.newbox("paragraph")
+		},
+		fc_color(id){/**字体颜色**/
+			this.newbox("color")
+		},
+		fc_backColor(id){/**字体背景色**/
+			this.newbox("backColor")
+		},
+		fc_link(id){/**超链接**/
+			this.newbox("link")
+		},
+		fc_code(id){/**代码块**/
+			this.newbox("code")
+		},
+		fc_image(id){/**图片**/
+			this.newbox("image")
+		},
+		fc_audio(id){/**音频**/
+			this.newbox("audio")
+		},
+		fc_video(id){/**视频**/
+			this.newbox("video")
+		},
+		fc_file(id){/**附件**/
+			this.newbox("file")
+		},
+		fc_about(id){/**关于**/
+			this.newbox("about")
 		},
 		fc_html(id){/**html模式**/
 			if(this.options.htmlKey){
-				this.options.htmlKey=this.setHtml(this.getText())
+				this.options.htmlKey=this.setHtml(this.getTextBox())
 			}else{
-				this.options.htmlKey=this.setText(this.getHtml());
+				this.options.htmlKey=this.setText(this.getHtmlBox());
+			}
+			for(var nav in this.config.navs){
+				if(this.config.navs[nav]!='|'){
+					var hiden=document.getElementById(MK.getId(this.config.navs[nav]));
+					if(this.options.htmlKey){
+						if(!MK.hasClass(hiden,"mk_item")){MK.addClass(hiden,"mk_item");}
+					}else{
+						if(MK.hasClass(hiden,"mk_item")){MK.removeClass(hiden,"mk_item");}
+					}
+				}
 			}
 		},
-		getText(){/**获取文本内容**/
+		newbox(el){
+			if(MK.options.navBox.blur(),document.getElementById("mk_div")){this.deldiv();}else{
+				var nav=document.getElementById(MK.getId(el));
+				nbox=document.createElement("div");
+				nbox.className="mk_div";
+				nbox.id="mk_div";
+				var data=Array();
+				switch(el){
+					case 'fontSize':
+						txt='<div class="mkn_'+el+'">';
+						var d=['10','12','14','16','18','24','32'];
+						for(i=0;i<d.length;i++){txt+='<p onclick="MK.doFc();" style="font-size:'+d[i]+'px;">'+d[i]+' px</p>';}
+						txt+='</div>';
+						break;
+					case 'fontFamily':
+						txt='<div class="mkn_'+el+'">';
+						for(var f in this.options.font){txt+='<p onclick="MK.doFc();" style="font-family:'+this.options.font[f]+';">'+this.options.lang[f]+'</p>';}
+						txt+='</div>';
+						break;
+					case 'paragraph':
+						txt='<div class="mkn_'+el+'">';
+						for(i=1;i<7;i++){txt+='<h'+i+' onclick="MK.doFc();">'+this.options.lang['biaoti']+i+'</h'+i+'>';}
+						txt+='<p onclick="MK.doFc();">'+this.options.lang['zhengwen']+'</p>';
+						txt+='</div>';
+						break;
+					case 'color':
+					case 'backColor':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_top"><p onclick="MK.doFc();">'+this.options.lang['nocolor']+'</p></div><div class="mkline_bottom">';
+						for(var f in this.options.color.base){txt+='<em onclick="MK.doFc();" title="'+this.options.color.base[f]+'" style="background:#'+this.options.color.base[f]+';"></em>';}
+						txt+='</div>';
+						for(var f in this.options.color.topic){
+							txt+='<div>';
+							for(var t in this.options.color.topic[f]){txt+='<em onclick="MK.doFc();" title="'+this.options.color.topic[f][t]+'" style="background:#'+this.options.color.topic[f][t]+';"></em>';}
+							txt+='</div>';
+						}
+						txt+='</div>';
+						break;
+					case 'link':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_link"><input type="text" class="mk_input" id="mk_urladdr" placeholder="'+this.options.lang['urladdr']+'" />';
+						txt+='<input type="checkbox" id="mk_newbar" />'+this.options.lang['newbar']+'<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='</div>';
+						break;
+					case 'code':
+						txt='<div class="mkn_'+el+'">';
+						for(var f in this.options.code){txt+='<p onclick="MK.doFc();">'+this.options.code[f]+'</p>';}
+						txt+='</div>';
+						break;
+					case 'image':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_file"><input type="text" class="mk_input" id="mk_imgaddr" placeholder="'+this.options.lang['imgaddr']+'" />';
+						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<div class="mk_video">';
+						txt+='<input type="button" id="mk_upimage" class="mk_up" onclick="MK.doFc();" value="'+this.options.lang['uploadImage']+'" /></div>';
+						txt+='</div>';
+						break;
+					case 'audio':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_file"><input type="text" class="mk_input" id="mk_audioaddr" placeholder="'+this.options.lang['audioaddr']+'" />';
+						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<div class="mk_video">';
+						txt+='<input type="button" id="mk_upaudio" class="mk_up" onclick="MK.doFc();" value="'+this.options.lang['uploadAudio']+'" /></div>';
+						txt+='</div>';
+						break;
+					case 'video':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_video"><input type="text" class="mk_input" id="mk_videoaddr" placeholder="'+this.options.lang['videoaddr']+'" />';
+						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<div class="mk_video">';
+						txt+='<input type="button" id="mk_upvideo" class="mk_up" onclick="MK.doFc();" value="'+this.options.lang['uploadVideo']+'" /></div>';
+						txt+='</div>';
+						break;
+					case 'file':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_file"><input type="text" class="mk_input" id="mk_fileaddr" placeholder="'+this.options.lang['fileaddr']+'" />';
+						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<div class="mk_video">';
+						txt+='<input type="button" class="mk_up" id="mk_upfile" onclick="MK.doFc();" value="'+this.options.lang['uploadFile']+'" /></div>';
+						txt+='</div>';
+						break;
+					case 'about':
+						txt='<div class="mkn_'+el+'">';
+						txt+='<div class="mk_about">'+this.options.lang['name']+' '+this.options.version+'';
+						txt+='<br/>'+this.options.lang['introduce'];
+						txt+='<br/>'+this.options.lang['copyright']+'</div>';
+						txt+='</div>';
+						break;
+					default :
+						txt='NULL';
+						break;
+				}
+
+				nbox.innerHTML=txt;
+				nbox.style.top=nav.offsetTop+nav.offsetHeight+"px";
+				MK.options.navBox.appendChild(nbox);
+				var H=nav.offsetLeft+nav.offsetWidth/2-nbox.offsetWidth/2;
+				if(nav.offsetLeft<nbox.offsetWidth/2){H=5;}
+				if(MK.options.navBox.offsetWidth-nav.offsetLeft-nav.offsetWidth<nbox.offsetWidth/2){H=MK.options.navBox.offsetWidth-nbox.offsetWidth-5;}
+				nbox.style.left=H+"px";
+				nbox.onclick=function(){
+					MK.options.navBox.blur();
+				}
+				//this.doFc(el,data);
+			}
+		},
+		doFc(el,data=''){
+			console.log('ok');
+			/**if(data){
+				this.options.funcs.push('MK.'+el+'Ex()');
+				var funcsLine=this.options.funcs.length-1;
+				document.getElementById("mk_ac_"+el).onclick=eval(this.options.funcs[funcsLine]);
+			}else{}**/
+		},
+		getText(){/**获取纯文本**/
+			return this.options.elemBox.innerText;
+		},
+		getHtml(){/**获取html代码**/
+			return this.options.elemBox.innerHTML;
+		},
+		getTextBox(){/**获取文本框内容**/
 			return this.options.textBox.value;
 		},
-		getHtml(){/**获取html文本内容**/
+		getHtmlBox(){/**获取div编辑区内容**/
 			return this.options.elemBox.innerHTML;
 		},
 		setText(el){/**设置文本内容**/
@@ -178,11 +450,30 @@
 			this.options.textBox.value=el;
 			return true;
 		},
+		addbr(){
+			var br=document.createElement("br");
+			this.options.elemBox.appendChild(br);
+		},
 		setHtml(el){/**设置html文本内容**/
 			this.options.textBox.style.display="none";
 			this.options.elemBox.style.display="block";
 			this.options.elemBox.innerHTML=el;
 			return false;
+		},
+		abolish(el=''){
+			if(el){
+				if(this.config.navs.indexOf(el)>-1){
+					var n=document.getElementById(MK.getId(this.config.navs[i]));
+					MK.hasClass(n,"mk_item")&&(n.click(),MK.removeClass(n,"mk_item"));
+				}
+			}else{
+				for(var i in this.config.navs){
+					if(this.config.navs[i]!='|'){
+						var n=document.getElementById(MK.getId(this.config.navs[i]));
+						MK.hasClass(n,"mk_item")&&(n.click(),MK.removeClass(n,"mk_item"));
+					}
+				}
+			}
 		},
 		setBr(el){
 			var pieces=this.options.format;
@@ -196,29 +487,48 @@
 			return el;
 		},
 		editorClick(){
-			if(document.getElementById("mk_div")){this.deldiv();}
-			if(this.options.preKey){this.options.preKey=false;}
+			if(document.getElementById("mk_div")){MK.deldiv();}
+			if(MK.options.preKey){MK.options.preKey=false;}
 			temArr=Array("b","i","strike","u","em","strong");
 			newArr=Array();
 			dataArr=["bold","italic","strike","underline"];
-			for(var onNode=this.getNode(),onName=this.getNodeName(onNode);temArr.indexOf(onName)>-1;){
+			for(var onNode=MK.getNode(),onName=MK.getNodeName(onNode);temArr.indexOf(onName)>-1;){
 				if(onName=="strong"||onName=="b"){onName="bold";}
 				if(onName=="em"||onName=="i"){onName="italic";}
 				if(onName=="u"){onName="underline";}
 				if(onName=="strike"){onName="strike";}
 				newArr.push(onName);
-				onNode=this.getNextNode(onNode);
-				onName=this.getNodeName(onNode);
+				onNode=MK.getNextNode(onNode);
+				onName=MK.getNodeName(onNode);
 			}
-			for(var a in dataArr){e=document.getElementById(HE.getId(dataArr[a]));HE.hasClass(e,"mk_item")&& HE.removeClass(e,"mk_item");}
-			if(newArr.length >0)for(var a in newArr){e=document.getElementById(HE.getId(newArr[a]));HE.hasClass(e, "HandyEditor_menu_item_valid") || HE.addClass(e, "HandyEditor_menu_item_valid");}
-			this.selarea();
+			for(var key in dataArr){showBox=document.getElementById(MK.getId(dataArr[key]));MK.hasClass(showBox,"mk_item")&& MK.removeClass(showBox,"mk_item");}
+			if(newArr.length>0)for(var key in newArr){showBox=document.getElementById(MK.getId(newArr[key]));MK.hasClass(showBox,"mk_item")||MK.addClass(showBox,"mk_item");}
+			MK.selarea();
+		},
+		valid(hideid){
+			var hiden=document.getElementById(MK.getId(hideid));
+			MK.hasClass(hiden,"mk_item")?(MK.removeClass(hiden,"mk_item"),this.options.click=""):(MK.addClass(hiden,"mk_item"),this.options.click=hideid);
 		},
 		deldiv(){
-			this.options.navBox.removeChild(document.getElementById("mk_div"))
+			this.options.navBox.removeChild(document.getElementById("mk_div"));
 		},
-		getId(e){
-			return "mk_"+e;
+		getId(el){
+			return "mk-"+el;
+		},
+		hasClass(el,dc){
+			if(el.className){
+				if(el.className.match(new RegExp("(\\s|^)"+dc+"(\\s|$)"))){return true;}else{return false;}
+			}else{return false;}
+		},
+		addClass(el,dc){
+			el.className+=" "+dc;
+		},
+		removeClass(el,dc){
+			if (this.hasClass(el,dc)) {
+				var nRe=new RegExp("(\\s|^)"+dc+"(\\s|$)");
+				el.className=el.className.replace(nRe," ");
+				el.className=el.className.trim();
+			}
 		},
 	};
 })(window);

@@ -4,15 +4,22 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mukeEditor</title>
+<title>MukeEditor</title>
 </head>
 <body>
 <textarea id="editor"></textarea>
 
 <script src="mukeEditor.js"></script>
-
+<a href="JavaScript:gett();">获取纯文本</a>
+<a href="JavaScript:geth();">获取HTML代码</a>
 <script>
 var editor = MK.getEditor('editor');
+function gett(){
+	alert(editor.getText());
+}
+function geth(){
+	alert(editor.getHtml());
+}
 </script>
 </body>
 </html>

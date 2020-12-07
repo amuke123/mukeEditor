@@ -1,6 +1,6 @@
 .icono-bold:before{content:'B';position:relative;top:0px;}
 .icono-italic:before{content:'I';position:relative;top:0px;left:-2px;font-style:italic;}
-.icono-delline:before{content:'S';position:relative;top:0px;text-decoration:line-through;}
+.icono-strike:before{content:'S';position:relative;top:0px;text-decoration:line-through;}
 .icono-underline:before{content:'U';position:relative;top:0px;text-decoration:underline;}
 .icono-fontSize:before{content:'Aa';position:relative;top:0px;font-size:14px;}
 .icono-fontFamily:before{content:'ℱ';position:relative;top:0px;}
@@ -49,6 +49,7 @@
 
 .icono-audio:before{content:'♪';position:relative;top:0px;font-size:18px;line-height:18px;}
 .icono-video:before{content:'▶';position:relative;top:0px;}
+.icono-file:before{content:'❐';position:relative;top:0px;font-size:18px;}
 .icono-subscript:before{content:'X₂';position:relative;top:0px;}
 .icono-superscript:before{content:'X²';position:relative;top:0px;}
 .icono-hr{display:inline-block;position:relative;top:-5px;left:0px;width:12px;height:2px;background:currentColor;}
