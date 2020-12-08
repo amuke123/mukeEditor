@@ -7,6 +7,8 @@
 			language:"zh-CN",
 			style:"style",
 			autoHeight:true,
+			uploadUrl:"php/upfile.php",
+			uploadPath:"themes/uploadfile",
 			navs:['html','|','bold','italic','underline','strike','fontSize','fontFamily','paragraph','color','backColor','|',
 			'orderedList','unorderedList','left','center','right','full','indent','outdent','subscript','superscript','|',
 			'link','unlink','textBlock','code','hr','selectAll','removeStyle','removeHtml','|',
@@ -23,8 +25,8 @@
 			elemBox:'',/**html盒子**/
 			navBox:'',/**nav盒子**/
 			textBox:'',/**文本框盒子**/
-			font:{songti:"SimSun",kaiti:"KaiTi",heiti:"SimHei",yahei:"Microsoft YaHei",andaleMono:"andale mono",arial:"arial",arialBlack:"arial black",comicSansMs:"comic sans ms",impact:"impact",timesNewRoman:"times new roman"},
-			code:{js:"JavaScript",html:"HTML",css:"CSS",php:"PHP",pl:"Perl",py:"Python",rb:"Ruby",java:"Java",vb:"ASP/VB",cpp:"C/C++",cs:"C#",xml:"XML",bsh:"Shell",other:"Other"},/**字体**/
+			font:{songti:"SimSun",kaiti:"KaiTi",heiti:"SimHei",yahei:"Microsoft YaHei",andaleMono:"andale mono",arial:"arial",arialBlack:"arial black",comicSansMs:"comic sans ms",impact:"impact",timesNewRoman:"times new roman"},/**字体**/
+			code:{js:"JavaScript",html:"HTML",css:"CSS",php:"PHP",pl:"Perl",py:"Python",rb:"Ruby",java:"Java",vb:"ASP/VB",cpp:"C/C++",cs:"C#",xml:"XML",bsh:"Shell",other:"Other"},
 			color:{
 				base: ["c00000", "ff0000", "ffc000", "ffff00", "92d050", "00b050", "00b0f0", "0070c0", "002060", "7030a0"],
 				topic: [["ffffff", "000000", "eeece1", "1f497d", "4f81bd", "c0504d", "9bbb59", "8064a2", "4bacc6", "f79646"], ["f2f2f2", "7f7f7f", "ddd9c3", "c6d9f0", "dbe5f1", "f2dcdb", "ebf1dd", "e5e0ec", "dbeef3", "fdeada"], ["d8d8d8", "595959", "c4bd97", "8db3e2", "b8cce4", "e5b9b7", "d7e3bc", "ccc1d9", "b7dde8", "fbd5b5"], ["bfbfbf", "3f3f3f", "938953", "548dd4", "95b3d7", "d99694", "c3d69b", "b2a2c7", "92cddc", "fac08f"], ["a5a5a5", "262626", "494429", "17365d", "366092", "953734", "76923c", "5f497a", "31859b", "e36c09"], ["7f7f7f", "0c0c0c", "1d1b10", "0f243e", "244061", "632423", "4f6128", "3f3151", "205867", "974806"]],/**颜色**/
@@ -323,34 +325,33 @@
 				nbox=document.createElement("div");
 				nbox.className="mk_div";
 				nbox.id="mk_div";
-				var data=Array();
 				switch(el){
 					case 'fontSize':
 						txt='<div class="mkn_'+el+'">';
-						var d=['10','12','14','16','18','24','32'];
-						for(i=0;i<d.length;i++){txt+='<p onclick="MK.doFc();" style="font-size:'+d[i]+'px;">'+d[i]+' px</p>';}
+						var d=['10','12','16','18','24','32','48'];
+						for(i=0;i<d.length;i++){txt+='<p onclick="MK.doFc(\'fontSize\',\''+(i+1)+'\');" style="font-size:'+d[i]+'px;">'+d[i]+' px</p>';}
 						txt+='</div>';
 						break;
 					case 'fontFamily':
 						txt='<div class="mkn_'+el+'">';
-						for(var f in this.options.font){txt+='<p onclick="MK.doFc();" style="font-family:'+this.options.font[f]+';">'+this.options.lang[f]+'</p>';}
+						for(var f in this.options.font){txt+='<p onclick="MK.doFc(\'fontName\',\''+this.options.font[f]+'\');" style="font-family:'+this.options.font[f]+';">'+this.options.lang[f]+'</p>';}
 						txt+='</div>';
 						break;
 					case 'paragraph':
 						txt='<div class="mkn_'+el+'">';
-						for(i=1;i<7;i++){txt+='<h'+i+' onclick="MK.doFc();">'+this.options.lang['biaoti']+i+'</h'+i+'>';}
-						txt+='<p onclick="MK.doFc();">'+this.options.lang['zhengwen']+'</p>';
+						for(i=1;i<7;i++){txt+='<h'+i+' onclick="MK.doFc(\'formatBlock\',\'<h'+i+'>\');">'+this.options.lang['biaoti']+i+'</h'+i+'>';}
+						txt+='<p onclick="MK.doFc(\'formatBlock\',\'<p>\');">'+this.options.lang['zhengwen']+'</p>';
 						txt+='</div>';
 						break;
 					case 'color':
 					case 'backColor':
 						txt='<div class="mkn_'+el+'">';
-						txt+='<div class="mk_top"><p onclick="MK.doFc();">'+this.options.lang['nocolor']+'</p></div><div class="mkline_bottom">';
-						for(var f in this.options.color.base){txt+='<em onclick="MK.doFc();" title="'+this.options.color.base[f]+'" style="background:#'+this.options.color.base[f]+';"></em>';}
+						txt+='<div class="mk_top"><p onclick="MK.doFc(\''+el+'\',\'\');">'+this.options.lang['nocolor']+'</p></div><div class="mkline_bottom">';
+						for(var f in this.options.color.base){txt+='<em onclick="MK.doFc(\''+el+'\',\'#'+this.options.color.base[f]+'\');" title="'+this.options.color.base[f]+'" style="background:#'+this.options.color.base[f]+';"></em>';}
 						txt+='</div>';
 						for(var f in this.options.color.topic){
 							txt+='<div>';
-							for(var t in this.options.color.topic[f]){txt+='<em onclick="MK.doFc();" title="'+this.options.color.topic[f][t]+'" style="background:#'+this.options.color.topic[f][t]+';"></em>';}
+							for(var t in this.options.color.topic[f]){txt+='<em onclick="MK.doFc(\''+el+'\',\'#'+this.options.color.topic[f][t]+'\');" title="'+this.options.color.topic[f][t]+'" style="background:#'+this.options.color.topic[f][t]+';"></em>';}
 							txt+='</div>';
 						}
 						txt+='</div>';
@@ -358,7 +359,7 @@
 					case 'link':
 						txt='<div class="mkn_'+el+'">';
 						txt+='<div class="mk_link"><input type="text" class="mk_input" id="mk_urladdr" placeholder="'+this.options.lang['urladdr']+'" />';
-						txt+='<input type="checkbox" id="mk_newbar" />'+this.options.lang['newbar']+'<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<strong><input type="checkbox" id="mk_newbar" />'+this.options.lang['newbar']+'</strong><input type="button" class="mk_affirm" onclick="MK.doFc(\'createLink\',\'\');" value="'+this.options.lang['affirm']+'" /></div>';
 						txt+='</div>';
 						break;
 					case 'code':
@@ -367,35 +368,25 @@
 						txt+='</div>';
 						break;
 					case 'image':
+					case 'file':
 						txt='<div class="mkn_'+el+'">';
-						txt+='<div class="mk_file"><input type="text" class="mk_input" id="mk_imgaddr" placeholder="'+this.options.lang['imgaddr']+'" />';
-						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
-						txt+='<div class="mk_video">';
-						txt+='<input type="button" id="mk_upimage" class="mk_up" onclick="MK.doFc();" value="'+this.options.lang['uploadImage']+'" /></div>';
+						txt+='<div class="mk_'+el+'"><input type="text" class="mk_input" id="mk_'+el+'addr" placeholder="'+this.options.lang[el+'addr']+'" />';
+						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc(\''+el+'\',\'\');" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<div class="mk_'+el+'">';
+						txt+='<div class="mk_botton"><big>'+this.options.lang['upload'+el]+'</big>';
+						txt+='<input type="file" multiple="multiple" name="file[]" id="mk_up'+el+'" class="mk_up" onchange="MK.upFc(\''+el+'\');" /></div></div>';
 						txt+='</div>';
 						break;
 					case 'audio':
-						txt='<div class="mkn_'+el+'">';
-						txt+='<div class="mk_file"><input type="text" class="mk_input" id="mk_audioaddr" placeholder="'+this.options.lang['audioaddr']+'" />';
-						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
-						txt+='<div class="mk_video">';
-						txt+='<input type="button" id="mk_upaudio" class="mk_up" onclick="MK.doFc();" value="'+this.options.lang['uploadAudio']+'" /></div>';
-						txt+='</div>';
-						break;
 					case 'video':
 						txt='<div class="mkn_'+el+'">';
-						txt+='<div class="mk_video"><input type="text" class="mk_input" id="mk_videoaddr" placeholder="'+this.options.lang['videoaddr']+'" />';
-						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
-						txt+='<div class="mk_video">';
-						txt+='<input type="button" id="mk_upvideo" class="mk_up" onclick="MK.doFc();" value="'+this.options.lang['uploadVideo']+'" /></div>';
-						txt+='</div>';
-						break;
-					case 'file':
-						txt='<div class="mkn_'+el+'">';
-						txt+='<div class="mk_file"><input type="text" class="mk_input" id="mk_fileaddr" placeholder="'+this.options.lang['fileaddr']+'" />';
-						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc();" value="'+this.options.lang['affirm']+'" /></div>';
-						txt+='<div class="mk_video">';
-						txt+='<input type="button" class="mk_up" id="mk_upfile" onclick="MK.doFc();" value="'+this.options.lang['uploadFile']+'" /></div>';
+						txt+='<div class="mk_'+el+'"><input type="text" class="mk_input" id="mk_'+el+'addr" placeholder="'+this.options.lang[el+'addr']+'" />';
+						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc(\''+el+'\',\'\');" value="'+this.options.lang['affirm']+'" /></div>';
+						txt+='<div class="mk_controls"><strong><input type="checkbox" id="mk_autoplay" />'+this.options.lang['autoplay']+'</strong>';
+						txt+='<strong><input type="checkbox" id="mk_loop" />'+this.options.lang['loop']+'</strong><strong><input type="checkbox" id="mk_controls" />'+this.options.lang['controls']+'</strong></div>';
+						txt+='<div class="mk_'+el+'">';
+						txt+='<div class="mk_botton"><big>'+this.options.lang['upload'+el]+'</big>';
+						txt+='<input type="file" multiple="multiple" name="file[]" id="mk_up'+el+'" class="mk_up" onchange="MK.upFc(\''+el+'\');" /></div></div>';
 						txt+='</div>';
 						break;
 					case 'about':
@@ -406,8 +397,7 @@
 						txt+='</div>';
 						break;
 					default :
-						txt='NULL';
-						break;
+						txt='NULL';break;
 				}
 
 				nbox.innerHTML=txt;
@@ -420,16 +410,70 @@
 				nbox.onclick=function(){
 					MK.options.navBox.blur();
 				}
-				//this.doFc(el,data);
 			}
 		},
-		doFc(el,data=''){
-			console.log('ok');
-			/**if(data){
-				this.options.funcs.push('MK.'+el+'Ex()');
-				var funcsLine=this.options.funcs.length-1;
-				document.getElementById("mk_ac_"+el).onclick=eval(this.options.funcs[funcsLine]);
-			}else{}**/
+		doFc(el,data){
+			switch(el){
+				case 'fontSize':
+					this.layout(el,data);break;
+				case 'fontName':
+					this.layout(el,data);break;
+				case 'formatBlock':
+					this.layout(el,data);break;
+				case 'color':
+					if(data==''){this.fc_removeStyle();}else{this.layout('foreColor',data);}break;
+				case 'backColor':
+					if(data==''){this.fc_removeStyle();}else{this.layout(el,data);}break;
+				case 'createLink':
+					var linkURL=document.getElementById('mk_urladdr').value;
+					var newbar=document.getElementById('mk_newbar').checked;
+					linkURL=linkURL==''?' ':linkURL;
+					if(newbar){
+						aStr=this.options.select;this.layout('insertHTML','<a href="'+linkURL+'" target="_blank">'+aStr+'</a>');
+					}else{this.layout(el,linkURL);}
+					break;
+				case 'code':
+					
+					break;
+				case 'image':
+					var upURL=document.getElementById('mk_'+el+'addr').value;
+					this.layout('insertHTML','<img src="'+upURL+'" />');
+					break;
+				case 'audio':
+					var upURL=document.getElementById('mk_'+el+'addr').value;
+					var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
+					var loop=document.getElementById('mk_loop').checked?' loop':'';
+					var controls=document.getElementById('mk_controls').checked?' controls':'';
+					this.layout('insertHTML','<p><audio src=" '+upURL+'"'+autoplay+loop+controls+'></audio></p><p><br/></p>');
+					break;
+				case 'video':
+					var upURL=document.getElementById('mk_'+el+'addr').value;
+					var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
+					var loop=document.getElementById('mk_loop').checked?' loop':'';
+					var controls=document.getElementById('mk_controls').checked?' controls':'';
+					this.layout('insertHTML','<p><video '+autoplay+loop+controls+' src="'+upURL+'"></video></p><p><br/></p>');
+					break;
+				case 'file':
+					var upURL=document.getElementById('mk_'+el+'addr').value;
+					this.layout('insertHTML','<p><a target="_blank" href="'+upURL+'">'+this.options.lang[el]+'</a></p><p><br/></p>');
+					break;
+				default:break;
+			}
+			this.deldiv();
+		},
+		upFc(el){
+			url=this.config.uploadUrl;
+			path=this.config.uploadPath;
+			fileObj=document.getElementById("mk_up"+el).files;
+			var data=new FormData();
+			if(fileObj.length > 0){
+				for(i=0;i<fileObj.length;i++){
+					data.append("file["+i+"]",fileObj[i]);
+				}
+			}
+			data.append("path",path);
+			data.append("type",el);
+			this.sendHttpUp(url,data);
 		},
 		getText(){/**获取纯文本**/
 			return this.options.elemBox.innerText;
@@ -528,6 +572,49 @@
 				var nRe=new RegExp("(\\s|^)"+dc+"(\\s|$)");
 				el.className=el.className.replace(nRe," ");
 				el.className=el.className.trim();
+			}
+		},
+		sendHttpUp(_url,_data=""){//post上传文件
+			xmlHttp=this.createXmlHttp();
+			if(!xmlHttp){
+				alert("创建xmlhttprequest对象失败");
+			}else{
+				url=_url;
+				xmlHttp.onreadystatechange = this.callback;
+				xmlHttp.open("POST",url,true);
+				//xmlHttp.send("color="+_cl+"&uid="+_uid); //post方法
+				xmlHttp.send(_data);
+			}
+		},
+		createXmlHttp(){
+			if(window.XMLHttpRequest){
+				xmlHttp = new XMLHttpRequest(); 
+				if(xmlHttp.overrideMimeType){
+					xmlHttp.overrideMimeType("text/xml");
+				}
+			}else if(window.ActiveXobject){
+				var activeName =["MSXML2.XMLHTTP","Microsoft.XMLHTTP"];
+				for(var i=0; i<activeName.length; i++){
+					try{
+						xmlHttp = new ActiveXobject(activeName[i]);
+						break;
+					}
+					catch(e){}
+				}     
+			}else{
+				xmlHttp=false;
+			}
+			return xmlHttp;
+		},
+		callback(){
+			if(xmlHttp.readyState == 4){
+				if(xmlHttp.status == 200){
+					var result = xmlHttp.responseText;
+					//console.log(result);
+					var json = eval("(" + result + ")");
+					alert(json.txt);
+					console.log(json.url);
+				}
 			}
 		},
 	};
