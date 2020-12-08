@@ -15,10 +15,11 @@ a:hover{color:#33CC99;}
 .mk-nav span{display:inline-block;margin:3px 5px;width:auto;min-width:30px;text-align:center;border-radius:3px;background:#333;box-shadow:inset -1px -1px 1px #000;font-weight:bold;}
 .mk-nav span:hover{background:#2981e4;}
 .mk-nav span i{font-style:normal;}
-.mk_item span{background:#999!important;}
+.mk_active{background:#666!important;}
+.mk_item{background:#999!important;}
 .mk_div{position:absolute;border:1px solid #999;background:#fff;color:#333;border-radius:5px;box-shadow:0px 1px 5px #00000090;}
 .mkn_fontSize,.mkn_fontFamily,.mkn_paragraph,.mkn_color,.mkn_backColor,.mkn_link,.mkn_code,.mkn_about,.mkn_video,.mkn_audio,.mkn_image{padding:5px;}
-big p,.mk_div h1,.mk_div h2,.mk_div h3,.mk_div h4,.mk_div h5,.mk_div h6{line-height:1.3em;cursor:pointer;margin:5px 0px;padding:5px 30px;border-radius:2px;}
+.mk_div p,.mk_div h1,.mk_div h2,.mk_div h3,.mk_div h4,.mk_div h5,.mk_div h6{line-height:1.3em;cursor:pointer;margin:5px 0px;padding:5px 30px;border-radius:2px;}
 .mk_div p:hover,.mk_div h1:hover,.mk_div h2:hover,.mk_div h3:hover,.mk_div h4:hover,.mk_div h5:hover,.mk_div h6:hover{background:#eee;}
 .mk_div div em{display:inline-block;width:15px;height:15px;margin:8px;padding:0px;border:1px solid #f3f5f4;}
 .mk_div div em:hover{outline:1px solid #5690D2;outline-offset:2px;}
@@ -41,3 +42,5 @@ big p,.mk_div h1,.mk_div h2,.mk_div h3,.mk_div h4,.mk_div h5,.mk_div h6{line-hei
 
 .mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;}
 .mk-editor p{padding:4px 0px;}
+.mk-editor pre{padding:5px;border-radius:3px;background:#f3f5f4;}
+.mk-editor pre.code{border-left:#ccc solid 2px;}

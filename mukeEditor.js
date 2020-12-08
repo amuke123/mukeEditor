@@ -42,23 +42,29 @@
 			this.setDir(box);
 			this.loadCss(this.config.style);
 			this.loadCss('icono');
+			this.loadCss('prettify','code');
 			this.loadScript(this.options.langPath);
+			this.loadScript('prettify','code');
 		},
-		loadCss(el){/**css加载**/
+		loadCss(el,dir='css'){/**css加载**/
 			var css=document.createElement('link');
 			css.type="text/css",
 			css.rel="stylesheet",
-			css.href=this.options.Path+'themes/css/'+el+'.css';
+			css.href=this.options.Path+'themes/'+dir+'/'+el+'.css';
 			var h=document.getElementsByTagName("head");
 			h.length ? h[0].appendChild(css):document.documentElement.appendChild(css);
 		},
-		loadScript(el){/**script加载**/
+		loadScript(el,dir=''){/**script加载**/
 			var script=document.createElement('script');
 			script.type="text/javascript";
-			script.onload=function(){MK.options.lang=langs,MK.disPlay()};
-			script.src=el;
-			var h=document.getElementsByTagName("head");
-			h.length?h[0].appendChild(script):document.documentElement.appendChild(script);
+			if(dir){
+				script.src=this.options.Path+dir+'/'+el+'.js';
+			}else{
+				script.onload=function(){MK.options.lang=langs,MK.disPlay()};
+				script.src=el;
+				var h=document.getElementsByTagName("head");
+				h.length?h[0].appendChild(script):document.documentElement.appendChild(script);
+			}
 		},
 		setDir(box){/**获取当前地址和语言包地址**/
 			this.options.id=box;
@@ -172,11 +178,14 @@
 		},
 		processInnderDiv(el){/**点击响应**/
 			if(el.getAttribute("class")){
-				myClass=el.getAttribute("class").split('-')[1];
-				if(this.config.navs.indexOf(myClass)>-1){
-					this.options.funcs.push('MK.fc_'+myClass+'("'+myClass+'")');
-					var funcsLine=this.options.funcs.length-1;
-					eval(this.options.funcs[funcsLine]);
+				sparr=el.getAttribute("class").split('-');
+				if(!(this.options.htmlKey)||sparr[1]=='html'||sparr[1]=='about'||sparr[0]=='mk'){
+					myClass=sparr[1];
+					if(this.config.navs.indexOf(myClass)>-1){
+						this.options.funcs.push('MK.fc_'+myClass+'("'+myClass+'")');
+						var funcsLine=this.options.funcs.length-1;
+						eval(this.options.funcs[funcsLine]);
+					}
 				}
 			}
 		},
@@ -309,7 +318,7 @@
 				this.options.htmlKey=this.setText(this.getHtmlBox());
 			}
 			for(var nav in this.config.navs){
-				if(this.config.navs[nav]!='|'){
+				if(this.config.navs[nav]!='|'&&this.config.navs[nav]!='html'&&this.config.navs[nav]!='about'){
 					var hiden=document.getElementById(MK.getId(this.config.navs[nav]));
 					if(this.options.htmlKey){
 						if(!MK.hasClass(hiden,"mk_item")){MK.addClass(hiden,"mk_item");}
@@ -364,7 +373,7 @@
 						break;
 					case 'code':
 						txt='<div class="mkn_'+el+'">';
-						for(var f in this.options.code){txt+='<p onclick="MK.doFc();">'+this.options.code[f]+'</p>';}
+						for(var f in this.options.code){txt+='<p onclick="MK.doFc(\'code\',\''+f+'\');">'+this.options.code[f]+'</p>';}
 						txt+='</div>';
 						break;
 					case 'image':
@@ -433,29 +442,30 @@
 					}else{this.layout(el,linkURL);}
 					break;
 				case 'code':
-					
+					aStr=this.options.select;
+					this.layout('insertHTML','<pre class="prettyprint lang-'+data+'">'+aStr+'<br/></pre>');
 					break;
 				case 'image':
-					var upURL=document.getElementById('mk_'+el+'addr').value;
-					this.layout('insertHTML','<img src="'+upURL+'" />');
+					if(data){this.layout('insertHTML',data);}else{
+						var upURL=document.getElementById('mk_'+el+'addr').value;
+						this.layout('insertHTML','<img src="'+upURL+'" />');
+					}
 					break;
 				case 'audio':
-					var upURL=document.getElementById('mk_'+el+'addr').value;
-					var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
-					var loop=document.getElementById('mk_loop').checked?' loop':'';
-					var controls=document.getElementById('mk_controls').checked?' controls':'';
-					this.layout('insertHTML','<p><audio src=" '+upURL+'"'+autoplay+loop+controls+'></audio></p><p><br/></p>');
-					break;
 				case 'video':
-					var upURL=document.getElementById('mk_'+el+'addr').value;
-					var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
-					var loop=document.getElementById('mk_loop').checked?' loop':'';
-					var controls=document.getElementById('mk_controls').checked?' controls':'';
-					this.layout('insertHTML','<p><video '+autoplay+loop+controls+' src="'+upURL+'"></video></p><p><br/></p>');
+					if(data){this.layout('insertHTML',data);}else{
+						var upURL=document.getElementById('mk_'+el+'addr').value;
+						var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
+						var loop=document.getElementById('mk_loop').checked?' loop':'';
+						var controls=document.getElementById('mk_controls').checked?' controls':'';
+						this.layout('insertHTML','<p><'+el+' '+autoplay+loop+controls+' src="'+upURL+'"></'+el+'></p><p><br/></p>');
+					}
 					break;
 				case 'file':
-					var upURL=document.getElementById('mk_'+el+'addr').value;
-					this.layout('insertHTML','<p><a target="_blank" href="'+upURL+'">'+this.options.lang[el]+'</a></p><p><br/></p>');
+					if(data){this.layout('insertHTML',data);}else{
+						var upURL=document.getElementById('mk_'+el+'addr').value;
+						this.layout('insertHTML','<p><a target="_blank" href="'+upURL+'">'+this.options.lang[el]+'</a></p><p><br/></p>');
+					}
 					break;
 				default:break;
 			}
@@ -545,13 +555,13 @@
 				onNode=MK.getNextNode(onNode);
 				onName=MK.getNodeName(onNode);
 			}
-			for(var key in dataArr){showBox=document.getElementById(MK.getId(dataArr[key]));MK.hasClass(showBox,"mk_item")&& MK.removeClass(showBox,"mk_item");}
-			if(newArr.length>0)for(var key in newArr){showBox=document.getElementById(MK.getId(newArr[key]));MK.hasClass(showBox,"mk_item")||MK.addClass(showBox,"mk_item");}
+			for(var key in dataArr){showBox=document.getElementById(MK.getId(dataArr[key]));MK.hasClass(showBox,"mk_active")&& MK.removeClass(showBox,"mk_active");}
+			if(newArr.length>0)for(var key in newArr){showBox=document.getElementById(MK.getId(newArr[key]));MK.hasClass(showBox,"mk_active")||MK.addClass(showBox,"mk_active");}
 			MK.selarea();
 		},
 		valid(hideid){
 			var hiden=document.getElementById(MK.getId(hideid));
-			MK.hasClass(hiden,"mk_item")?(MK.removeClass(hiden,"mk_item"),this.options.click=""):(MK.addClass(hiden,"mk_item"),this.options.click=hideid);
+			MK.hasClass(hiden,"mk_active")?(MK.removeClass(hiden,"mk_active"),this.options.click=""):(MK.addClass(hiden,"mk_active"),this.options.click=hideid);
 		},
 		deldiv(){
 			this.options.navBox.removeChild(document.getElementById("mk_div"));
@@ -582,7 +592,6 @@
 				url=_url;
 				xmlHttp.onreadystatechange = this.callback;
 				xmlHttp.open("POST",url,true);
-				//xmlHttp.send("color="+_cl+"&uid="+_uid); //post方法
 				xmlHttp.send(_data);
 			}
 		},
@@ -595,11 +604,7 @@
 			}else if(window.ActiveXobject){
 				var activeName =["MSXML2.XMLHTTP","Microsoft.XMLHTTP"];
 				for(var i=0; i<activeName.length; i++){
-					try{
-						xmlHttp = new ActiveXobject(activeName[i]);
-						break;
-					}
-					catch(e){}
+					try{xmlHttp = new ActiveXobject(activeName[i]);break;}catch(e){}
 				}     
 			}else{
 				xmlHttp=false;
@@ -612,8 +617,41 @@
 					var result = xmlHttp.responseText;
 					//console.log(result);
 					var json = eval("(" + result + ")");
-					alert(json.txt);
-					console.log(json.url);
+					//alert(json.txt);
+					var texts='';
+					var ts='';
+					switch(json.type){
+						case 'image':
+							for(var n in json.url){
+								if(json.url[n].indexOf(MK.config.uploadPath)>-1){
+									texts+='<img src="'+json.url[n]+'" />';
+								}else{ts+=(n+1)+':'+json.url[n]+'\n';}
+							}
+							break;
+						case 'audio':
+						case 'video':
+							for(var n in json.url){
+								if(json.url[n].indexOf(MK.config.uploadPath)>-1){
+									var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
+									var loop=document.getElementById('mk_loop').checked?' loop':'';
+									var controls=' controls';
+									texts+='<p><'+json.type+' src="'+json.url[n]+'"'+autoplay+loop+controls+'></'+json.type+'></p>';
+								}else{ts+=(n+1)+':'+json.url[n]+'\n';}
+							}
+							texts+='<p><br/></p>';
+							break;
+						case 'file':
+							for(var n in json.url){
+								if(json.url[n].indexOf(MK.config.uploadPath)>-1){
+									texts+='<p><a target="_blank" href="'+json.url[n]+'">'+MK.options.lang[json.type]+'</a></p>';
+								}else{ts+=(n+1)+':'+json.url[n]+'\n';}
+							}
+							texts+='<p><br/></p>';
+							break;
+						default:break;
+					}
+					ts!=''?alert(MK.options.lang['uploadError']+':\n'+ts):'';
+					MK.doFc(json.type,texts);
 				}
 			}
 		},

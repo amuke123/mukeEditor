@@ -68,7 +68,7 @@ var langs={
 	fileaddr:'附件地址',
 	file:'附件',
 	uploadfile:'上传附件',
-	uploadError:'上传失败',
+	uploadError:'上传失败文件',
 	
 	cut:'剪切',
 	copy:'拷贝',

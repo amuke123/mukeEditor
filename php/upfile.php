@@ -1,8 +1,8 @@
 <?php
 if(isset($_POST['type'])){
 	$data=array();
-	$data['action']='upfile';
 	$type=$_POST['type'];
+	$data['type']=$type;
 	$path=$_POST['path'];
 	$files=getFileList($_FILES);
 	if(!empty($files)){
@@ -17,41 +17,29 @@ if(isset($_POST['type'])){
 function upload($file,$path,$type){
 	$max_size=10*1024*1024;
 	switch($type){
-		case 'image':
-			$ext_arr = array("jpg","jpeg","gif","png");break;
-		case 'audio':
-			$ext_arr = array("mp3","wma","rm","ogg");break;
-		case 'video':
-			$ext_arr = array("avi","mp4","ogg","mov");break;
-		case 'file':
-			$ext_arr = array("rar","zip","txt","pdf","docx","doc","xls","xlsx");break;
+		case 'image':$ext_arr=array("jpg","jpeg","gif","png");break;
+		case 'audio':$ext_arr=array("mp3","wma","wav","ogg");break;
+		case 'video':$ext_arr=array("avi","mp4","ogg","mov");break;
+		case 'file':$ext_arr=array("rar","zip","txt","pdf","docx","doc","xls","xlsx");break;
 		defined:$ext_arr=array();
 	}
 	$save_path = dirname(dirname(__FILE__)).'/'.$path.'/';
 	$save_url = $path.'/';
-	//原文件名
-	$file_name = $file['name'];
-	//服务器上临时文件名
-	$tmp_name = $file['tmp_name'];
-	//文件大小
-	$file_size = $file['size'];
-	//检查文件名
-	if(!$file_name){return "请选择文件。";}
-	//检查目录
-	if(@is_dir($save_path) === false){return "上传目录不存在。";}
-	//检查目录写权限
-	if(@is_writable($save_path) === false){return "上传目录没有写权限。";}
-	//检查是否已上传
-	if(@is_uploaded_file($tmp_name) === false){return "上传失败。";}
-	//检查文件大小
-	if($file_size > $max_size){return "上传文件大小超过限制。";}
+	$file_name = $file['name'];//原文件名
+	$tmp_name = $file['tmp_name'];//服务器上临时文件名
+	$file_size = $file['size'];//文件大小
+	if(!$file_name){return $file_name."请选择文件。";}//检查文件名
+	if(@is_dir($save_path) === false){return $file_name."上传目录不存在。";}//检查目录
+	if(@is_writable($save_path) === false){return $file_name."上传目录没有写权限。";}//检查目录写权限
+	if(@is_uploaded_file($tmp_name) === false){return $file_name."上传文件已存在。";}//检查是否已上传
+	if($file_size > $max_size){return $file_name."上传文件大小超过限制。";}//检查文件大小
 	//获得文件扩展名
 	$temp_arr = explode(".", $file_name);
 	$file_ext = array_pop($temp_arr);
 	$file_ext = trim($file_ext);
 	$file_ext = strtolower($file_ext);
 	//检查扩展名
-	if(in_array($file_ext,$ext_arr) === false){return "上传文件类型不被允许。";}
+	if(in_array($file_ext,$ext_arr) === false){return $file_name."上传文件类型不被允许。";}
 	//创建文件夹
 	$ymd = date("Ymd");
 	$save_path .= $ymd . "/";
@@ -62,7 +50,7 @@ function upload($file,$path,$type){
 	$new_file_name = time().rand(10000,99999).'.'.$file_ext;
 	//移动文件
 	$file_path = $save_path . $new_file_name;
-	if(move_uploaded_file($tmp_name, $file_path) === false){return "上传文件失败。";}
+	if(move_uploaded_file($tmp_name, $file_path) === false){return $file_name."上传文件失败。";}
 	@chmod($file_path, 0644);
 	return $save_url.$new_file_name;
 }
