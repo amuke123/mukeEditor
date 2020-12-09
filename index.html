@@ -4,16 +4,22 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MukeEditor</title>
+<title>欢迎使用MukeEditor！</title>
 </head>
 <body>
-<textarea id="editor">欢迎使用MukeEditor！</textarea>
+<textarea id="editor"></textarea>
 
 <script src="mukeEditor.js"></script>
-<a href="JavaScript:gett();"> 获取纯文本</a>
-<a href="JavaScript:geth();"> 获取HTML代码</a>
 <script>
 var editor = MK.getEditor('editor');
+</script>
+
+<p style="text-align:center;line-height:30px;"><a href="JavaScript:gett();"> 获取纯文本</a> 
+<a href="JavaScript:geth();"> 获取HTML代码</a> 
+<a target="_blank" href="https://github.com/amuke123/mukeEditor/wiki">查看文档</a></p>
+<p style="text-align:center;line-height:30px;">Copyright © amuker.com All rights reserved.</p>
+
+<script>
 function gett(){
 	alert(editor.getText());
 }

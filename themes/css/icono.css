@@ -49,7 +49,11 @@
 
 .icono-audio:before{content:'♪';position:relative;top:0px;font-size:18px;line-height:18px;}
 .icono-video:before{content:'▶';position:relative;top:0px;}
-.icono-file:before{content:'❐';position:relative;top:0px;font-size:18px;}
+
+.icono-file{display:inline-block;position:relative;top:0px;left:0px;width:2px;height:10px;border:1px solid currentColor;border-top:1px solid transparent;border-radius:5px;}
+.icono-file:before{content:'';position:absolute;top:-3px;left:-1px;width:5px;height:12px;border:1px solid currentColor;border-bottom:1px solid transparent;border-radius:3px;}
+.icono-file:after{content:'';position:absolute;top:-2px;left:-4px;width:8px;height:14px;border:1px solid currentColor;border-top:1px solid transparent;border-radius:0px 0px 4px 4px;}
+
 .icono-subscript:before{content:'X₂';position:relative;top:0px;}
 .icono-superscript:before{content:'X²';position:relative;top:0px;}
 .icono-hr{display:inline-block;position:relative;top:-5px;left:0px;width:12px;height:2px;background:currentColor;}
@@ -62,10 +66,13 @@
 
 .icono-undo:before{content:'↶';position:relative;top:0px;}
 .icono-redo:before{content:'↷';position:relative;top:0px;}
-.icono-html:before{content:'<>';position:relative;top:0px;font-family:'黑体';}
+.icono-html:before{content:'<>';position:relative;top:0px;font-family:'SimHei';}
 .icono-about:before{content:'?';position:relative;top:0px;}
 
-
+.icono-cut:before{content:'✂';position:relative;top:0px;}
+.icono-copy:before{content:'❐';position:relative;top:0px;font-size:18px;}
+.icono-paste:before{content:'☑';position:relative;top:0px;font-size:18px;}
+.icono-delete:before{content:'X';position:relative;top:0px;font-family:'SimHei';}
 
 
 

@@ -2,29 +2,29 @@
 if(isset($_POST['type'])){
 	$data=array();
 	$type=$_POST['type'];
+	$myType=array();
+	$myType['image']=json_decode($_POST['imageType']);
+	$myType['audio']=json_decode($_POST['audioType']);
+	$myType['video']=json_decode($_POST['videoType']);
+	$myType['file']=json_decode($_POST['fileType']);
+	$host=$_POST['host'];
 	$data['type']=$type;
 	$path=$_POST['path'];
 	$files=getFileList($_FILES);
 	if(!empty($files)){
 		foreach($files as $key => $val){
-			$data['url'][$key]=upload($val,$path,$type);
+			$data['url'][$key]=upload($val,$path,$type,$host,$myType);
 		}
 	}
 	$data['txt']='ok';
 	echo json_encode($data);
 }
 
-function upload($file,$path,$type){
+function upload($file,$path,$type,$host,$myType){
 	$max_size=10*1024*1024;
-	switch($type){
-		case 'image':$ext_arr=array("jpg","jpeg","gif","png");break;
-		case 'audio':$ext_arr=array("mp3","wma","wav","ogg");break;
-		case 'video':$ext_arr=array("avi","mp4","ogg","mov");break;
-		case 'file':$ext_arr=array("rar","zip","txt","pdf","docx","doc","xls","xlsx");break;
-		defined:$ext_arr=array();
-	}
-	$save_path = dirname(dirname(__FILE__)).'/'.$path.'/';
-	$save_url = $path.'/';
+	$ext_arr=$myType[$type];
+	$save_path = $_SERVER['DOCUMENT_ROOT'].$path;
+	$save_url = $host.$path.'/';
 	$file_name = $file['name'];//原文件名
 	$tmp_name = $file['tmp_name'];//服务器上临时文件名
 	$file_size = $file['size'];//文件大小
@@ -42,7 +42,7 @@ function upload($file,$path,$type){
 	if(in_array($file_ext,$ext_arr) === false){return $file_name."上传文件类型不被允许。";}
 	//创建文件夹
 	$ymd = date("Ymd");
-	$save_path .= $ymd . "/";
+	$save_path .= "/". $ymd . "/";
 	$save_url .= $ymd . "/";
 	if(!file_exists($save_path)){mkdir($save_path);}
 	$new_path=$save_path;

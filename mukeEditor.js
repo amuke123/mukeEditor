@@ -7,24 +7,30 @@
 			language:"zh-CN",
 			style:"style",
 			autoHeight:true,
-			uploadUrl:"php/upfile.php",
-			uploadPath:"themes/uploadfile",
+			uploadKey:false,
+			uploadUrl:"",
+			uploadPath:"",
 			navs:['html','|','bold','italic','underline','strike','fontSize','fontFamily','paragraph','color','backColor','|',
-			'orderedList','unorderedList','left','center','right','full','indent','outdent','subscript','superscript','|',
-			'link','unlink','textBlock','code','hr','selectAll','removeStyle','removeHtml','|',
-			'image','audio','video','file','|','undo','redo','|','about'],
+				'orderedList','unorderedList','left','center','right','full','indent','outdent','subscript','superscript','|',
+				'link','unlink','textBlock','code','hr','selectAll','removeStyle','removeHtml','|',
+				'image','audio','video','file','|','cut','copy','paste','delete','undo','redo','|','about'],
+			fileType:{image:["jpg","jpeg","gif","png"],audio:["mp3","wav"],video:["avi","mp4","ogg","rm"],file:["rar","zip","txt","pdf","docx","doc","xls","xlsx"]},
 		},
 		options:{
 			version:"1.0.0",/**版本**/
 			lang:{},/**语言包数据**/
 			id:'',/**文本框id**/
 			Path:'',/**本文件地址**/
+			Host:'',/**主机名**/
+			PathPre:'',/**去域名文件地址**/
 			langPath:'',/**语言包文件地址**/
 			preKey:false,/**pre模式开启**/
 			htmlKey:false,/**html模式开启**/
 			elemBox:'',/**html盒子**/
 			navBox:'',/**nav盒子**/
 			textBox:'',/**文本框盒子**/
+			uploadUrl:"php/upfile.php",
+			uploadPath:"themes/uploadfile",
 			font:{songti:"SimSun",kaiti:"KaiTi",heiti:"SimHei",yahei:"Microsoft YaHei",andaleMono:"andale mono",arial:"arial",arialBlack:"arial black",comicSansMs:"comic sans ms",impact:"impact",timesNewRoman:"times new roman"},/**字体**/
 			code:{js:"JavaScript",html:"HTML",css:"CSS",php:"PHP",pl:"Perl",py:"Python",rb:"Ruby",java:"Java",vb:"ASP/VB",cpp:"C/C++",cs:"C#",xml:"XML",bsh:"Shell",other:"Other"},
 			color:{
@@ -35,16 +41,19 @@
 			funcs:[],/**操作集合**/
 		},
 		getEditor(box,i){/**入口**/
-			this.loading(box,i);
-			return MK;
+			this.loading(box,i);return MK;
 		},
 		loading(box,i){/**加载**/
+			i&&this.upConfig(i);
 			this.setDir(box);
 			this.loadCss(this.config.style);
 			this.loadCss('icono');
 			this.loadCss('prettify','code');
 			this.loadScript(this.options.langPath);
 			this.loadScript('prettify','code');
+		},
+		upConfig(i){
+			for(var n in i){this.config[n]=i[n];}
 		},
 		loadCss(el,dir='css'){/**css加载**/
 			var css=document.createElement('link');
@@ -67,6 +76,10 @@
 			}
 		},
 		setDir(box){/**获取当前地址和语言包地址**/
+			var temHref=window.document.location.href;
+			var temPath=window.document.location.pathname;
+			this.options.Host=temPath!='/'?temHref.substring(0,temHref.indexOf(temPath)+1):temHref;
+			this.options.PathPre=temPath.substring(1,temPath.lastIndexOf('/')+1);
 			this.options.id=box;
 			var els=document.getElementsByTagName('script'),src;
 			for(var i=0,len=els.length;i<len;i++){
@@ -382,8 +395,8 @@
 						txt+='<div class="mk_'+el+'"><input type="text" class="mk_input" id="mk_'+el+'addr" placeholder="'+this.options.lang[el+'addr']+'" />';
 						txt+='<input type="button" class="mk_affirm" onclick="MK.doFc(\''+el+'\',\'\');" value="'+this.options.lang['affirm']+'" /></div>';
 						txt+='<div class="mk_'+el+'">';
-						txt+='<div class="mk_botton"><big>'+this.options.lang['upload'+el]+'</big>';
-						txt+='<input type="file" multiple="multiple" name="file[]" id="mk_up'+el+'" class="mk_up" onchange="MK.upFc(\''+el+'\');" /></div></div>';
+						if(this.config.uploadKey){txt+='<div class="mk_botton"><big>'+this.options.lang['upload'+el]+'</big>';
+						txt+='<input type="file" multiple="multiple" name="file[]" id="mk_up'+el+'" class="mk_up" onchange="MK.upFc(\''+el+'\');" /></div></div>';}
 						txt+='</div>';
 						break;
 					case 'audio':
@@ -394,8 +407,8 @@
 						txt+='<div class="mk_controls"><strong><input type="checkbox" id="mk_autoplay" />'+this.options.lang['autoplay']+'</strong>';
 						txt+='<strong><input type="checkbox" id="mk_loop" />'+this.options.lang['loop']+'</strong><strong><input type="checkbox" id="mk_controls" />'+this.options.lang['controls']+'</strong></div>';
 						txt+='<div class="mk_'+el+'">';
-						txt+='<div class="mk_botton"><big>'+this.options.lang['upload'+el]+'</big>';
-						txt+='<input type="file" multiple="multiple" name="file[]" id="mk_up'+el+'" class="mk_up" onchange="MK.upFc(\''+el+'\');" /></div></div>';
+						if(this.config.uploadKey){txt+='<div class="mk_botton"><big>'+this.options.lang['upload'+el]+'</big>';
+						txt+='<input type="file" multiple="multiple" name="file[]" id="mk_up'+el+'" class="mk_up" onchange="MK.upFc(\''+el+'\');" /></div></div>';}
 						txt+='</div>';
 						break;
 					case 'about':
@@ -472,8 +485,8 @@
 			this.deldiv();
 		},
 		upFc(el){
-			url=this.config.uploadUrl;
-			path=this.config.uploadPath;
+			url=this.config.uploadUrl==''?this.options.Host+this.options.PathPre+this.options.uploadUrl:this.options.Host+this.config.uploadUrl;
+			path=this.config.uploadPath==''?this.options.PathPre+this.options.uploadPath:this.config.uploadPath;
 			fileObj=document.getElementById("mk_up"+el).files;
 			var data=new FormData();
 			if(fileObj.length > 0){
@@ -481,6 +494,11 @@
 					data.append("file["+i+"]",fileObj[i]);
 				}
 			}
+			data.append("imageType",JSON.stringify(this.config.fileType.image));
+			data.append("audioType",JSON.stringify(this.config.fileType.audio));
+			data.append("videoType",JSON.stringify(this.config.fileType.video));
+			data.append("fileType",JSON.stringify(this.config.fileType.file));
+			data.append("host",this.options.Host);
 			data.append("path",path);
 			data.append("type",el);
 			this.sendHttpUp(url,data);
@@ -615,9 +633,7 @@
 			if(xmlHttp.readyState == 4){
 				if(xmlHttp.status == 200){
 					var result = xmlHttp.responseText;
-					//console.log(result);
 					var json = eval("(" + result + ")");
-					//alert(json.txt);
 					var texts='';
 					var ts='';
 					switch(json.type){
