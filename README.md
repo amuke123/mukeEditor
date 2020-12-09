@@ -1,6 +1,6 @@
 # mukeEditor
 
-尝试制作一款富文本编辑器，欢迎使用MukeEditor！<br/>
+制作一款富文本编辑器，欢迎使用MukeEditor！<br/>
 
 MukeEditor 1.0.0<br/>
 
