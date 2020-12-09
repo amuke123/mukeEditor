@@ -1,6 +1,6 @@
 # mukeEditor
 
-尝试制作一款富文本编辑器<br/>
+尝试制作一款富文本编辑器，欢迎使用MukeEditor！<br/>
 
 MukeEditor 1.0.0<br/>
 
@@ -14,7 +14,7 @@ MukeEditor 1.0.0<br/>
 使用方法<br/>
 <br/>
 
-<textarea id="editor">欢迎使用MukeEditor！</textarea><br/>
+<textarea id="editor"></textarea><br/>
 
 <script src="mukeEditor.js"></script><br/>
 <script><br/>
