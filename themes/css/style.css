@@ -12,7 +12,7 @@ a:hover{color:#33CC99;}
 .mk-box{max-width:98%;height:auto;margin:10px 1%;}
 .mk-nav{line-height:30px;padding:2px 5px;border:1px solid #ccc;font-size:16px;color:#fff;background:#f3f5f4;}
 .mk-nav b{color:#777;font-weight:normal;font-size:19px;padding:0px 5px;text-shadow:0px 0px 3px #fff;}
-.mk-nav span{display:inline-block;margin:3px 5px;width:auto;min-width:30px;text-align:center;border-radius:3px;background:#333;box-shadow:inset -1px -1px 1px #000;font-weight:bold;}
+.mk-nav span{display:inline-block;margin:3px 5px;width:auto;min-width:30px;min-height:30px;text-align:center;border-radius:3px;background:#333;box-shadow:inset -1px -1px 1px #000;font-weight:bold;}
 .mk-nav span:hover{background:#2981e4;}
 .mk-nav span i{font-style:normal;}
 .mk_active{background:#666!important;}

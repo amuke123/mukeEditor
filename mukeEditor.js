@@ -50,7 +50,7 @@
 			this.loadCss('icono');
 			this.loadCss('prettify','code');
 			this.loadScript(this.options.langPath);
-			this.loadScript('prettify','code');
+			//this.loadScript('prettify','code');
 		},
 		upConfig(i){
 			for(var n in i){this.config[n]=i[n];}
