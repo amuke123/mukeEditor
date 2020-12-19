@@ -111,6 +111,7 @@
 			this.options.elemBox=editor;
 			this.options.navBox=nav;
 			this.options.textBox=M;
+			this.options.elemBox.innerHTML=this.options.textBox.value;
 			this.options.elemBox.onclick=this.editorClick,this.options.elemBox.onkeydown=function(e){
 				var i=e||window.event;
 				if(13==(i.keyCode||i.which||i.charCode)){
@@ -119,7 +120,7 @@
 			};
 			this.options.elemBox.onblur=function(e){
 				MK.selarea();
-				if(MK.options.htmlKey){MK.options.elemBox.innerHTML=MK.options.textBox.value;}
+				if(MK.options.htmlKey){MK.options.elemBox.innerHTML=MK.options.textBox.value;}else{MK.options.textBox.value=MK.options.elemBox.innerHTML;}
 			};
 			elem.appendChild(nav);
 			elem.appendChild(editor);
@@ -484,10 +485,14 @@
 			}
 			this.deldiv();
 		},
-		upFc(el){
+		upFc(el,zdy=''){
 			url=this.config.uploadUrl==''?this.options.Host+this.options.PathPre+this.options.uploadUrl:this.options.Host+this.config.uploadUrl;
 			path=this.config.uploadPath==''?this.options.PathPre+this.options.uploadPath:this.config.uploadPath;
-			fileObj=document.getElementById("mk_up"+el).files;
+			if(zdy==''){
+				fileObj=document.getElementById("mk_up"+el).files;
+			}else{
+				fileObj=document.getElementById(zdy).files;
+			}
 			var data=new FormData();
 			if(fileObj.length > 0){
 				for(i=0;i<fileObj.length;i++){

@@ -9,7 +9,7 @@ a:hover{color:#33CC99;}
 .clear{clear:both;}
 .left{float:left;}
 
-.mk-box{max-width:98%;height:auto;margin:10px 1%;}
+.mk-box{max-width:100%;height:auto;margin:10px 0px;}
 .mk-nav{line-height:30px;padding:2px 5px;border:1px solid #ccc;font-size:16px;color:#fff;background:#f3f5f4;}
 .mk-nav b{color:#777;font-weight:normal;font-size:19px;padding:0px 5px;text-shadow:0px 0px 3px #fff;}
 .mk-nav span{display:inline-block;margin:3px 5px;width:auto;min-width:30px;min-height:30px;text-align:center;border-radius:3px;background:#333;box-shadow:inset -1px -1px 1px #000;font-weight:bold;}
@@ -40,7 +40,7 @@ a:hover{color:#33CC99;}
 
 
 
-.mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;}
-.mk-editor p{padding:4px 0px;}
+.mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;background:#fff;}
+.mk-editor p{padding:4px 0px!important;line-height:1.5em!important;}
 .mk-editor pre{padding:5px;border-radius:3px;background:#f3f5f4;}
 .mk-editor pre.code{border-left:#ccc solid 2px;}
