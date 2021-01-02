@@ -559,7 +559,8 @@
 			pieces.push('ul');
 			pieces.push('div');
 			for(n in pieces){
-				el=el.replace("/<\/"+pieces[n]+"></g",'</'+pieces[n]+'>\n<');
+				var str="<\/"+pieces[n]+"><";
+				el=el.replace(new RegExp(str,'g'),'</'+pieces[n]+'>\n<');
 			}
 			return el;
 		},
