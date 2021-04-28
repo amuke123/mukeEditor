@@ -8,12 +8,13 @@ a{color:#555;text-decoration:none;}
 a:hover{color:#33CC99;}
 .clear{clear:both;}
 .left{float:left;}
+.right{float:right;}
 
 .mk-box{max-width:100%;height:auto;margin:10px 0px;}
-.mk-nav{line-height:30px;padding:2px 5px;border:1px solid #ccc;font-size:16px;color:#fff;background:#f3f5f4;}
-.mk-nav b{color:#777;font-weight:normal;font-size:19px;padding:0px 5px;text-shadow:0px 0px 3px #fff;}
-.mk-nav span{display:inline-block;margin:3px 5px;width:auto;min-width:30px;min-height:30px;text-align:center;border-radius:3px;background:#333;box-shadow:inset -1px -1px 1px #000;font-weight:bold;}
-.mk-nav span:hover{background:#2981e4;}
+.mk-nav{line-height:30px;padding:2px 5px;border:1px solid #ccc;font-size:16px;color:#222;background:#f3f5f4;}
+.mk-nav b{color:#999;font-weight:normal;padding:0px 5px;}
+.mk-nav span{display:inline-block;margin:2px 1px;padding:0px 1px;width:auto;min-width:30px;min-height:30px;text-align:center;border-radius:3px;border:1px solid transparent;font-weight:bold;}
+.mk-nav span:hover{border:1px solid #ddd;}
 .mk-nav span i{font-style:normal;}
 .mk_active{background:#666!important;}
 .mk_item{background:#999!important;}

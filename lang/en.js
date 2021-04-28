@@ -15,7 +15,7 @@ var langs={
 	indent:'Indentation',
 	outdent:'Reduce indentation',
 	link:'Link',
-	textBlock:'Text block',
+	textBlock:'quote',
 	code:'code',
 	unlink:'Unlink',
 	selectAll:'Select all',
