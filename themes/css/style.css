@@ -45,3 +45,5 @@ a:hover{color:#33CC99;}
 .mk-editor p{padding:4px 0px!important;line-height:1.5em!important;}
 .mk-editor pre{padding:5px;border-radius:3px;background:#f3f5f4;}
 .mk-editor pre.code{border-left:#ccc solid 2px;}
+.mk-editor ol{list-style-type:decimal;}
+.mk-editor ul{list-style-type:disc;}
