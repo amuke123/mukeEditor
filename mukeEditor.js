@@ -560,7 +560,8 @@
 			pieces.push('ol');
 			pieces.push('ul');
 			pieces.push('div');
-			for(n in pieces){
+			pieces.push('blockquote');
+			for(var n in pieces){
 				var str="<\/"+pieces[n]+"><";
 				el=el.replace(new RegExp(str,'g'),'</'+pieces[n]+'>\n<');
 			}
