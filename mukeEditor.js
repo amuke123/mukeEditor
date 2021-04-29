@@ -327,7 +327,7 @@
 		},
 		fc_html(id){/**html模式**/
 			if(this.options.htmlKey){
-				this.options.htmlKey=this.setHtml(this.getTextBox())
+				this.options.htmlKey=this.setHtml(this.getTextBox());
 			}else{
 				this.options.htmlKey=this.setText(this.getHtmlBox());
 			}
@@ -457,7 +457,7 @@
 					break;
 				case 'code':
 					aStr=this.options.select;
-					this.layout('insertHTML','<pre class="prettyprint lang-'+data+'">'+aStr+'<br/></pre>');
+					this.layout('insertHTML','<pre class="prettyprint lang-'+data+'">'+aStr+'<br/></pre><p></p>');
 					break;
 				case 'image':
 					if(data){this.layout('insertHTML',data);}else{
@@ -484,6 +484,7 @@
 				default:break;
 			}
 			this.deldiv();
+			MK.options.textBox.value=MK.getHtml();
 		},
 		upFc(el,zdy=''){
 			url=this.config.uploadUrl==''?this.options.Host+this.options.PathPre+this.options.uploadUrl:this.options.Host+this.config.uploadUrl;
@@ -614,7 +615,7 @@
 				alert("创建xmlhttprequest对象失败");
 			}else{
 				url=_url;
-				xmlHttp.onreadystatechange = this.callback;
+				xmlHttp.onreadystatechange = this.callback_bk;
 				xmlHttp.open("POST",url,true);
 				xmlHttp.send(_data);
 			}
@@ -635,47 +636,58 @@
 			}
 			return xmlHttp;
 		},
-		callback(){
+		callback_bk2(){
+			if(event.lengthComputable){
+				jdt = Math.ceil(event.loaded * 100 / event.total) + "%";
+				if(jdt=='100%'){MK.callback_bk();}
+			}
+		},
+		callback_bk(){
 			if(xmlHttp.readyState == 4){
 				if(xmlHttp.status == 200){
 					var result = xmlHttp.responseText;
-					var json = eval("(" + result + ")");
-					var texts='';
-					var ts='';
-					switch(json.type){
-						case 'image':
-							for(var n in json.url){
-								if(json.url[n].indexOf(MK.config.uploadPath)>-1){
-									texts+='<img src="'+json.url[n]+'" />';
-								}else{ts+=(n+1)+':'+json.url[n]+'\n';}
-							}
-							break;
-						case 'audio':
-						case 'video':
-							for(var n in json.url){
-								if(json.url[n].indexOf(MK.config.uploadPath)>-1){
-									var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
-									var loop=document.getElementById('mk_loop').checked?' loop':'';
-									var controls=' controls';
-									texts+='<p><'+json.type+' src="'+json.url[n]+'"'+autoplay+loop+controls+'></'+json.type+'></p>';
-								}else{ts+=(n+1)+':'+json.url[n]+'\n';}
-							}
-							texts+='<p><br/></p>';
-							break;
-						case 'file':
-							for(var n in json.url){
-								if(json.url[n].indexOf(MK.config.uploadPath)>-1){
-									texts+='<p><a target="_blank" href="'+json.url[n]+'">'+MK.options.lang[json.type]+'</a></p>';
-								}else{ts+=(n+1)+':'+json.url[n]+'\n';}
-							}
-							texts+='<p><br/></p>';
-							break;
-						default:break;
+					if(result){
+						MK.change_box(result);
 					}
-					ts!=''?alert(MK.options.lang['uploadError']+':\n'+ts):'';
-					MK.doFc(json.type,texts);
 				}
 			}
+		},
+		change_box(result){
+			var json = eval("(" + result + ")");
+			var texts='';
+			var ts='';
+			switch(json.type){
+				case 'image':
+					for(var n in json.url){
+						if(json.url[n].indexOf(MK.config.uploadPath)>-1){
+							texts+='<img src="'+json.url[n]+'" />';
+						}else{ts+=(n+1)+':'+json.url[n]+'\n';}
+					}
+					break;
+				case 'audio':
+				case 'video':
+					for(var n in json.url){
+						if(json.url[n].indexOf(MK.config.uploadPath)>-1){
+							var autoplay=document.getElementById('mk_autoplay').checked?' autoplay':'';
+							var loop=document.getElementById('mk_loop').checked?' loop':'';
+							var controls=' controls';
+							texts+='<p><'+json.type+' src="'+json.url[n]+'"'+autoplay+loop+controls+'></'+json.type+'></p>';
+						}else{ts+=(n+1)+':'+json.url[n]+'\n';}
+					}
+					texts+='<p><br/></p>';
+					break;
+				case 'file':
+					for(var n in json.url){
+						if(json.url[n].indexOf(MK.config.uploadPath)>-1){
+							texts+='<p><a target="_blank" href="'+json.url[n]+'">'+MK.options.lang[json.type]+'</a></p>';
+						}else{ts+=(n+1)+':'+json.url[n]+'\n';}
+					}
+					texts+='<p><br/></p>';
+					break;
+				default:break;
+			}
+			ts!=''?alert(MK.options.lang['uploadError']+':\n'+ts):'';
+			MK.doFc(json.type,texts);
 		},
 	};
 })(window);
