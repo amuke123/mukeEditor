@@ -240,8 +240,9 @@
 		fc_unlink(id){/**取消链接**/
 			this.layout("unlink")
 		},
-		fc_textBlock(id){/**文本块**/
-			if(this.options.preKey){this.addbr();this.options.preKey=false;}else{this.layout("formatBlock","<pre>");this.options.preKey=true;}
+		fc_textBlock(id){/**引用**/
+			aStr=this.options.select;
+			this.layout('insertHTML','<blockquote class="mk_quote">'+aStr+'<br/></blockquote><p></p>');
 		},
 		fc_selectAll(id){/**全选**/
 			this.layout("selectall")

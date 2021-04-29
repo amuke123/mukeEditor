@@ -12,8 +12,8 @@ a:hover{color:#33CC99;}
 
 .mk-box{max-width:100%;height:auto;margin:10px 0px;}
 .mk-nav{line-height:30px;padding:2px 5px;border:1px solid #ccc;font-size:16px;color:#222;background:#f3f5f4;}
-.mk-nav b{color:#999;font-weight:normal;padding:0px 5px;}
-.mk-nav span{display:inline-block;margin:2px 1px;padding:0px 1px;width:auto;min-width:30px;min-height:30px;text-align:center;border-radius:3px;border:1px solid transparent;font-weight:bold;}
+.mk-nav b{color:#999;font-weight:normal;padding:0px 3px;}
+.mk-nav span{display:inline-block;margin:2px 1px;padding:0px 1px;width:auto;min-width:28px;min-height:30px;text-align:center;border-radius:3px;border:1px solid transparent;font-weight:bold;}
 .mk-nav span:hover{border:1px solid #ddd;}
 .mk-nav span i{font-style:normal;}
 .mk_active{background:#ddd!important;}
@@ -43,7 +43,9 @@ a:hover{color:#33CC99;}
 
 .mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;background:#fff;}
 .mk-editor p{padding:4px 0px!important;line-height:1.5em!important;}
-.mk-editor pre{padding:5px;border-radius:3px;background:#f3f5f4;}
-.mk-editor pre.code{border-left:#ccc solid 2px;}
-.mk-editor ol{list-style-type:decimal;padding-left:30px;}
-.mk-editor ul{list-style-type:disc;padding-left:30px;}
+.mk-editor blockquote.mk_quote{padding:5px 8px;border-radius:3px;background:#f3f5f4;margin:1px 0px;}
+.mk-editor pre{padding:5px 8px;border-radius:3px;background:#f3f5f4;margin:1px 0px;}
+.mk-editor pre.code{border-left:#ccc solid 2px;margin:1px 0px;}
+.mk-editor ol{list-style-type:decimal;padding-left:30px;margin:1px 0px;}
+.mk-editor ul{list-style-type:disc;padding-left:30px;margin:1px 0px;}
+
