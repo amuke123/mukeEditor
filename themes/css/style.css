@@ -16,8 +16,8 @@ a:hover{color:#33CC99;}
 .mk-nav span{display:inline-block;margin:2px 1px;padding:0px 1px;width:auto;min-width:30px;min-height:30px;text-align:center;border-radius:3px;border:1px solid transparent;font-weight:bold;}
 .mk-nav span:hover{border:1px solid #ddd;}
 .mk-nav span i{font-style:normal;}
-.mk_active{background:#666!important;}
-.mk_item{background:#999!important;}
+.mk_active{background:#ddd!important;}
+.mk_item{color:#999!important;}
 .mk_div{position:absolute;border:1px solid #999;background:#fff;color:#333;border-radius:5px;box-shadow:0px 1px 5px #00000090;}
 .mkn_fontSize,.mkn_fontFamily,.mkn_paragraph,.mkn_color,.mkn_backColor,.mkn_link,.mkn_code,.mkn_about,.mkn_video,.mkn_audio,.mkn_image{padding:5px;}
 .mk_div p,.mk_div h1,.mk_div h2,.mk_div h3,.mk_div h4,.mk_div h5,.mk_div h6{line-height:1.3em;cursor:pointer;margin:5px 0px;padding:5px 30px;border-radius:2px;}
