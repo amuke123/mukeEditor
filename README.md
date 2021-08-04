@@ -22,4 +22,6 @@ var editor = MK.getEditor('editor');<br/>
 </script><br/>
 <br/>
 
+设置详情 https://github.com/amuke123/mukeEditor/wiki
+
 Copyright © amuker.com All rights reserved.<br/>
