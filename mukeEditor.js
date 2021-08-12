@@ -7,6 +7,7 @@
 			language:"zh-CN",
 			style:"style",
 			autoHeight:true,
+			filterMode:true,
 			uploadKey:false,
 			uploadUrl:"",
 			uploadPath:"",
@@ -111,7 +112,7 @@
 			this.options.elemBox=editor;
 			this.options.navBox=nav;
 			this.options.textBox=M;
-			this.options.elemBox.innerHTML=this.options.textBox.value;
+			this.options.elemBox.innerHTML=this.config.filterMode ? MK.empScript(this.options.textBox.value):this.options.textBox.value;
 			this.options.elemBox.onclick=this.editorClick,this.options.elemBox.onkeydown=function(e){
 				var i=e||window.event;
 				if(13==(i.keyCode||i.which||i.charCode)){
@@ -120,7 +121,11 @@
 			};
 			this.options.elemBox.onblur=function(e){
 				MK.selarea();
-				if(MK.options.htmlKey){MK.options.elemBox.innerHTML=MK.options.textBox.value;}else{MK.options.textBox.value=MK.options.elemBox.innerHTML;}
+				if(MK.options.htmlKey){
+					MK.options.elemBox.innerHTML = this.config.filterMode ? MK.empScript(MK.options.textBox.value) : MK.options.textBox.value;
+				}else{
+					MK.options.textBox.value =  this.config.filterMode ? MK.empScript(MK.options.elemBox.innerHTML) : MK.options.elemBox.innerHTML;
+				}
 			};
 			elem.appendChild(nav);
 			elem.appendChild(editor);
@@ -524,6 +529,7 @@
 		},
 		setText(el){/**设置文本内容**/
 			el=this.setBr(el);
+			if(this.config.filterMode){el=this.empScript(el);}
 			this.options.textBox.style.display="block";
 			this.options.elemBox.style.display='none';
 			this.options.textBox.value=el;
@@ -534,6 +540,7 @@
 			this.options.elemBox.appendChild(br);
 		},
 		setHtml(el){/**设置html文本内容**/
+			if(this.config.filterMode){el=this.empScript(el);}
 			this.options.textBox.style.display="none";
 			this.options.elemBox.style.display="block";
 			this.options.elemBox.innerHTML=el;
@@ -564,6 +571,16 @@
 			for(var n in pieces){
 				var str="<\/"+pieces[n]+"><";
 				el=el.replace(new RegExp(str,'g'),'</'+pieces[n]+'>\n<');
+			}
+			return el;
+		},
+		empScript(el){
+			var pattern = /(<script((.|\n)*?)>)(.|\n)*?(<\/script>)/gi;
+			var vl = el.match(pattern);
+			console.log(vl);
+			var num = (vl&&1)?vl.length:0;
+			for(i=0;i<num;i++){
+				el=el.replace(vl[i],'');
 			}
 			return el;
 		},

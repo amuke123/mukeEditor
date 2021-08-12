@@ -41,7 +41,7 @@ a:hover{color:#33CC99;}
 
 
 
-.mk-editor{width:calc(100% - 22px);border:1px solid #ccc;padding:10px;margin-top:-1px;background:#fff;}
+.mk-editor{width:100%;border:1px solid #ccc;padding:10px;margin-top:-1px;background:#fff;box-sizing:border-box;}
 .mk-editor p{padding:4px 0px!important;line-height:1.5em!important;}
 .mk-editor blockquote.mk_quote{padding:5px 8px;border-radius:3px;background:#f3f5f4;margin:1px 0px;}
 .mk-editor pre{padding:5px 8px;border-radius:3px;background:#f3f5f4;margin:1px 0px;}
