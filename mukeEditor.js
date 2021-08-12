@@ -256,9 +256,11 @@
 			this.abolish();
 			this.layout("removeFormat")
 		},
-		fc_removeHtml(id){/**清除多余的HTML代码**/
-			this.options.elemBox.innerHTML=this.options.elemBox.innerText.replace(/\r\n/g,"<br/>");
-			this.options.elemBox.innerHTML=this.options.elemBox.innerText.replace(/\n/g,"<br/>");
+		fc_removeHtml(id){/**清除HTML标签**/
+			if(confirm("当前操作会丢失历史操作记录，导致无法撤销操作，是否确认操作？")){
+				this.options.elemBox.innerHTML=this.options.elemBox.innerText.replace(/\r\n/g,"<br/>");
+				this.options.elemBox.innerHTML=this.options.elemBox.innerText.replace(/\n/g,"<br/>");
+			}
 		},
 		fc_subscript(id){/**下标**/
 			this.layout("subscript");
