@@ -11,14 +11,13 @@
 			uploadKey:false,
 			uploadUrl:"",
 			uploadPath:"",
-			navs:['html','|','bold','italic','underline','strike','fontSize','fontFamily','paragraph','color','backColor','|',
-				'orderedList','unorderedList','left','center','right','full','indent','outdent','subscript','superscript','|',
-				'link','unlink','textBlock','code','hr','selectAll','removeStyle','removeHtml','|',
-				'image','audio','video','file','|'/**,'cut','copy','paste','delete'**/,'undo','redo','|','about'],
+			navs:['undo','redo','|','bold','italic','underline','strike','fontSize'/**,'fontFamily'**/,'paragraph','color','backColor','removeStyle'/**,'selectAll','removeHtml'**/,'|',
+				'orderedList','unorderedList','left','center','right','full','indent','outdent'/**,'subscript','superscript'**/,'|',
+				'link','unlink','textBlock','code','hr','image','audio','video','file','|'/**,'cut','copy','paste','delete'**/,'html','about'],
 			fileType:{image:["jpg","jpeg","gif","png"],audio:["mp3","wav"],video:["avi","mp4","ogg","rm"],file:["rar","zip","txt","pdf","docx","doc","xls","xlsx"]},
 		},
 		options:{
-			version:"1.1.0",/**版本**/
+			version:"1.2.0",/**版本**/
 			lang:{},/**语言包数据**/
 			id:'',/**文本框id**/
 			Path:'',/**本文件地址**/
