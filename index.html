@@ -11,7 +11,12 @@
 
 <script src="mukeEditor.js"></script>
 <script>
-var editor = MK.getEditor('editor');
+var editor = MK.getEditor('editor',{
+	width:'100%',
+	height:"280px",
+	autoHeight:true,//默认值为False，高度固定为height的高度
+	uploadKey:true,//默认值为False
+});
 </script>
 
 <p style="text-align:center;line-height:30px;"><a href="JavaScript:gett();"> 获取纯文本</a> 
