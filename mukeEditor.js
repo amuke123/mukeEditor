@@ -11,8 +11,8 @@
 			uploadKey:false,
 			uploadUrl:"",
 			uploadPath:"",
-			navs:['undo','redo','|','bold','italic','underline','strike','fontSize'/**,'fontFamily'**/,'paragraph','color','backColor','removeStyle'/**,'selectAll','removeHtml'**/,'|',
-				'orderedList','unorderedList','left','center','right','full','indent','outdent'/**,'subscript','superscript'**/,'|',
+			navs:['undo','redo','|','bold','italic','underline','strike','fontSize','fontFamily','paragraph','color','backColor','removeStyle','selectAll'/**,'removeHtml'**/,'|',
+				'orderedList','unorderedList','left','center','right','full','indent','outdent','subscript','superscript','|',
 				'link','unlink','textBlock','code','hr','image','audio','video','file','|'/**,'cut','copy','paste','delete'**/,'html','about'],
 			fileType:{image:["jpg","jpeg","gif","png"],audio:["mp3","wav"],video:["avi","mp4","ogg","rm"],file:["rar","zip","txt","pdf","docx","doc","xls","xlsx"]},
 		},
@@ -271,7 +271,7 @@
 			this.valid('superscript');
 		},
 		fc_hr(id){/**水平线**/
-			this.layout("insertHorizontalRule")
+			this.layout("insertHTML","<hr/>")
 		},
 		fc_orderedList(id){/**有序列表**/
 			this.layout("insertOrderedList")
