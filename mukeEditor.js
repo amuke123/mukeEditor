@@ -118,12 +118,13 @@
 					MK.setFormat()||i.shiftKey?'':MK.layout("formatBlock","<p>",true);
 				}
 			};
+			var _that = this;
 			this.options.elemBox.onblur=function(e){
 				MK.selarea();
 				if(MK.options.htmlKey){
-					MK.options.elemBox.innerHTML = this.config.filterMode ? MK.empScript(MK.options.textBox.value) : MK.options.textBox.value;
+					MK.options.elemBox.innerHTML = _that.config.filterMode ? MK.empScript(MK.options.textBox.value) : MK.options.textBox.value;
 				}else{
-					MK.options.textBox.value =  this.config.filterMode ? MK.empScript(MK.options.elemBox.innerHTML) : MK.options.elemBox.innerHTML;
+					MK.options.textBox.value =  _that.config.filterMode ? MK.empScript(MK.options.elemBox.innerHTML) : MK.options.elemBox.innerHTML;
 				}
 			};
 			elem.appendChild(nav);
@@ -578,7 +579,7 @@
 		empScript(el){
 			var pattern = /(<script((.|\n)*?)>)(.|\n)*?(<\/script>)/gi;
 			var vl = el.match(pattern);
-			console.log(vl);
+			//console.log(vl);
 			var num = (vl&&1)?vl.length:0;
 			for(i=0;i<num;i++){
 				el=el.replace(vl[i],'');
